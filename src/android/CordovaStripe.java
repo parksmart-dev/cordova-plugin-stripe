@@ -102,7 +102,7 @@ public class CordovaStripe extends CordovaPlugin {
                 break;
 
             case "createGooglePayToken":
-                createGooglePayToken(data.getString(0), data.getString(2), callbackContext);
+                createGooglePayToken(data.getString(0), data.getString(1), callbackContext);
                 break;
 
             case "createPiiToken":
