@@ -26,6 +26,7 @@ import com.stripe.android.model.Card;
 import com.stripe.android.model.Source;
 import com.stripe.android.model.SourceParams;
 import com.stripe.android.model.Token;
+import com.stripe.android.GooglePayConfig;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -105,7 +106,6 @@ public class CordovaStripe extends CordovaPlugin
 
     private void initGooglePay(final String key, final CallbackContext callbackContext) 
     {
-        stripeInstance.setDefaultPublishableKey(key);
         publishableKey = key;
 
         stripeInstance = new Stripe(webView.getContext(), publishableKey);
@@ -185,7 +185,7 @@ public class CordovaStripe extends CordovaPlugin
             .put("apiVersionMinor", 0)
             .put("allowedPaymentMethods",
                 new JSONArray().put(cardPaymentMethod))
-            .put("transactionInfo", JSONObject()
+            .put("transactionInfo", new JSONObject()
                 .put("totalPrice", totalPrice)
                 .put("totalPriceStatus", "FINAL")
                 .put("currencyCode", currencyCode)
@@ -193,8 +193,7 @@ public class CordovaStripe extends CordovaPlugin
             .put("merchantInfo", new JSONObject()
                 .put("merchantName", "Example Merchant"))
 
-            // require email address
-            .put("emailRequired", true)
+            .put("emailRequired", false)
             .toString();
 
         return PaymentDataRequest.fromJson(paymentDataRequest);
@@ -227,7 +226,7 @@ public class CordovaStripe extends CordovaPlugin
 
                     if (intent != null) 
                     {
-                        onGooglePayResult(data);
+                        onGooglePayResult(intent);
                     }
                     
                     break;
