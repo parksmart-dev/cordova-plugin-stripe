@@ -35,6 +35,10 @@ export namespace CordovaStripe {
     items: ApplePayItem[];
   }
 
+  export interface GooglePayInit {
+    publishableKey: string;
+  }
+
   export interface GooglePayOptions {
     amount: string;
     currencyCode: string;
@@ -220,8 +224,8 @@ export namespace CordovaStripe {
       ])
     }
 
-    static initGooglePay(success = NOOP, error: ErrorCallback = NOOP) {
-      exec(success, error, 'CordovaStripe', 'initGooglePay');
+    static initGooglePay(options: GooglePayInit, success = NOOP, error: ErrorCallback = NOOP) {
+      exec(success, error, 'CordovaStripe', 'initGooglePay', [options.publishableKey]);
     }
 
     static payWithGooglePay(options: GooglePayOptions, success: (response: any) => void, error: ErrorCallback = NOOP) {

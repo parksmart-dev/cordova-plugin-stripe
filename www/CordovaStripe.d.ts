@@ -9,7 +9,9 @@ export interface CordovaPlugins {
 }
 export declare namespace CordovaStripe {
     
-    
+    export interface GooglePayInit {
+        publishableKey: string;
+      }
     interface TokenResponse {
         id: string;
         type: string;
@@ -165,7 +167,7 @@ export declare namespace CordovaStripe {
          * @param {CordovaStripe.ErrorCallback} error
          */
         static payWithApplePay(options: ApplePayOptions, success: (token: TokenResponse, callback: (paymentProcessed: boolean) => void) => void, error?: ErrorCallback): void;
-        static initGooglePay(success?: any, error?: ErrorCallback): void;
+        static initGooglePay(options: GooglePayInit, success?: any, error?: ErrorCallback): void;
         static payWithGoogle(options: GooglePayOptions, success: (token: any) => void, error?: ErrorCallback): void;
     }
 }

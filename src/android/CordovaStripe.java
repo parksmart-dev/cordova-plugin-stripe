@@ -20,11 +20,8 @@ import com.google.android.gms.wallet.TransactionInfo;
 import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
 import com.stripe.android.CardUtils;
-import com.stripe.android.SourceCallback;
 import com.stripe.android.Stripe;
-import com.stripe.android.TokenCallback;
 import com.stripe.android.model.AccountParams;
-import com.stripe.android.model.BankAccount;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Source;
 import com.stripe.android.model.SourceParams;
@@ -69,12 +66,8 @@ public class CordovaStripe extends CordovaPlugin
     {
         switch (action) 
         {
-            case "setPublishableKey":
-                setPublishableKey(data.getString(0), callbackContext);
-                break;
-
             case "initGooglePay":
-                initGooglePay(callbackContext);
+                initGooglePay(data.getString(0), callbackContext);
                 break;
 
             case "payWithGooglePay":
@@ -86,21 +79,6 @@ public class CordovaStripe extends CordovaPlugin
         }
 
         return true;
-    }
-
-
-    private void setPublishableKey(final String key, final CallbackContext callbackContext) 
-    {
-        try 
-        {
-            stripeInstance.setDefaultPublishableKey(key);
-            publishableKey = key;
-            callbackContext.success();
-        } 
-        catch (Exception e) 
-        {
-            callbackContext.error(e.getLocalizedMessage());
-        }
     }
 
 
@@ -124,8 +102,11 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private void initGooglePay(final CallbackContext callbackContext) 
+    private void initGooglePay(final String key, final CallbackContext callbackContext) 
     {
+        stripeInstance.setDefaultPublishableKey(key);
+        publishableKey = key;
+
         paymentsClient = Wallet.getPaymentsClient(
                 cordova.getContext(),
                 new Wallet.WalletOptions.Builder()
