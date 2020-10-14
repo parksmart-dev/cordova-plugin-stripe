@@ -52,12 +52,13 @@ public class CordovaStripe extends CordovaPlugin
     private PaymentMethodTokenizationParameters googlePayParams;
     private final int LOAD_PAYMENT_DATA_REQUEST_CODE = 53;
     private CallbackContext googlePayCallbackContext;
+    private CordovaWebView webView;
 
     
     public void initialize(CordovaInterface cordova, CordovaWebView webView) 
     {
         super.initialize(cordova, webView);
-        stripeInstance = new Stripe(webView.getContext());
+        webView = webView;
     }
 
 
@@ -106,6 +107,8 @@ public class CordovaStripe extends CordovaPlugin
     {
         stripeInstance.setDefaultPublishableKey(key);
         publishableKey = key;
+
+        stripeInstance = new Stripe(webView.getContext(), publishableKey);
 
         paymentsClient = Wallet.getPaymentsClient(
                 cordova.getContext(),
