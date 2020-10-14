@@ -149,6 +149,36 @@ public class CordovaStripe extends CordovaPlugin
 
     private JSONObject createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
+        return PaymentDataRequest.fromJson('{
+            "apiVersion": 2,
+            "apiVersionMinor": 0,
+            "merchantInfo": {
+              "merchantName": "Example Merchant"
+            },
+            "allowedPaymentMethods": [
+              {
+                "type": "CARD",
+                "parameters": {
+                  "allowedAuthMethods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                  "allowedCardNetworks": ["AMEX", "DISCOVER", "MASTERCARD", "VISA"]
+                },
+                "tokenizationSpecification": {
+                  "type": "' +  WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY + '",
+                  "parameters": {
+                    "gateway": "stripe"
+                  }
+                }
+              }
+            ],
+            "transactionInfo": {
+              "totalPriceStatus": "' + WalletConstants.TOTAL_PRICE_STATUS_FINAL + '",
+              "totalPrice": "' + totalPrice + '",
+              "currencyCode": "' + currencyCode + '"
+            }
+          }');
+          
+
+
         //final JSONObject tokenizationSpec = new GooglePayConfig().getTokenizationSpecification();
 
         final JSONObject tokenizationSpec = new JSONObject()
@@ -196,7 +226,7 @@ public class CordovaStripe extends CordovaPlugin
                 new JSONArray().put(cardPaymentMethod))
             .put("transactionInfo", new JSONObject()
                 .put("totalPrice", totalPrice)
-                .put("totalPriceStatus", "FINAL")
+                .put("totalPriceStatus", WalletConstants.TOTAL_PRICE_STATUS_FINAL)
                 .put("currencyCode", currencyCode)
             )
             .put("merchantInfo", new JSONObject()
