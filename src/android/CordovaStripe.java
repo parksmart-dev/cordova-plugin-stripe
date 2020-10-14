@@ -19,6 +19,7 @@ import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.TransactionInfo;
 import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.stripe.android.CardUtils;
 import com.stripe.android.Stripe;
 import com.stripe.android.model.AccountParams;
@@ -200,7 +201,6 @@ public class CordovaStripe extends CordovaPlugin
             )
             .put("merchantInfo", new JSONObject()
                 .put("merchantName", "Example Merchant"))
-
             .put("emailRequired", false)
             .toString();
 
