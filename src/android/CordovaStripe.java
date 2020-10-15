@@ -234,8 +234,7 @@ public class CordovaStripe extends CordovaPlugin
             )
             .put("merchantInfo", new JSONObject()
                 .put("merchantName", "Example Merchant"))
-            .put("emailRequired", false)
-            .toString();
+            .put("emailRequired", false);
 
         return PaymentDataRequest.fromJson(paymentDataRequest);
     }
