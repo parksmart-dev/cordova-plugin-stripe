@@ -184,13 +184,6 @@ public class CordovaStripe extends CordovaPlugin
 
         //final JSONObject tokenizationSpec = new GooglePayConfig().getTokenizationSpecification();
 
-        final JSONObject tokenizationSpec = new JSONObject()
-            .put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
-            .put(
-                "parameters",
-                new JSONObject()
-                    .put("gateway", "stripe")
-            );
 
             final JSONObject cardPaymentMethod = new JSONObject()
             .put("type", "CARD")
@@ -218,8 +211,7 @@ public class CordovaStripe extends CordovaPlugin
                             // require phone number
                             .put("phoneNumberRequired", false)
                     )
-            )
-            .put("tokenizationSpecification", tokenizationSpec);
+            );
 
         // create PaymentDataRequest
         final JSONObject paymentDataRequest = new JSONObject()
