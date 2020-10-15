@@ -150,41 +150,6 @@ public class CordovaStripe extends CordovaPlugin
     private JSONObject createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
 
-        /*
-        return PaymentDataRequest.fromJson('{
-            "apiVersion": 2,
-            "apiVersionMinor": 0,
-            "merchantInfo": {
-              "merchantName": "Example Merchant"
-            },
-            "allowedPaymentMethods": [
-              {
-                "type": "CARD",
-                "parameters": {
-                  "allowedAuthMethods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                  "allowedCardNetworks": ["AMEX", "DISCOVER", "MASTERCARD", "VISA"]
-                },
-                "tokenizationSpecification": {
-                  "type": "' +  WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY + '",
-                  "parameters": {
-                    "gateway": "stripe"
-                  }
-                }
-              }
-            ],
-            "transactionInfo": {
-              "totalPriceStatus": "' + WalletConstants.TOTAL_PRICE_STATUS_FINAL + '",
-              "totalPrice": "' + totalPrice + '",
-              "currencyCode": "' + currencyCode + '"
-            }
-          }');
-          
-          */
-
-
-        //final JSONObject tokenizationSpec = new GooglePayConfig().getTokenizationSpecification();
-
-        /*
         final JSONObject tokenizationSpec = new JSONObject()
             .put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
             .put(
@@ -210,15 +175,6 @@ public class CordovaStripe extends CordovaPlugin
 
                     // require billing address
                     .put("billingAddressRequired", false)
-                    .put(
-                        "billingAddressParameters",
-                        new JSONObject()
-                            // require full billing address
-                            .put("format", "MIN")
-
-                            // require phone number
-                            .put("phoneNumberRequired", false)
-                    )
             )
             .put("tokenizationSpecification", tokenizationSpec);
 
@@ -235,39 +191,10 @@ public class CordovaStripe extends CordovaPlugin
             )
             .put("merchantInfo", new JSONObject()
                 .put("merchantName", "Example Merchant"))
-            .put("emailRequired", false);
+            .put("emailRequired", false)
+            .toString();
 
-            */
-
-             data = {
-                "apiVersion": 2,
-                "apiVersionMinor": 0,
-                "merchantInfo": {
-                  "merchantName": "Example Merchant"
-                },
-                "allowedPaymentMethods": [
-                  {
-                    "type": "CARD",
-                    "parameters": {
-                      "allowedAuthMethods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                      "allowedCardNetworks": ["AMEX", "DISCOVER", "INTERAC", "JCB", "MASTERCARD", "VISA"]
-                    },
-                    "tokenizationSpecification": {
-                      "type": "PAYMENT_GATEWAY",
-                      "parameters": {
-                        "gateway": "stripe"
-                      }
-                    }
-                  }
-                ],
-                "transactionInfo": {
-                  "totalPriceStatus": "FINAL",
-                  "totalPrice": "12.34",
-                  "currencyCode": "GBP"
-                }
-              }
-
-        return PaymentDataRequest.fromJson(data);
+        return PaymentDataRequest.fromJson(paymentDataRequest);
     }
 
 
