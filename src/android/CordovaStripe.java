@@ -196,8 +196,8 @@ public class CordovaStripe extends CordovaPlugin
                 .put("merchantName", "Example Merchant"))
             .put("emailRequired", false);
 
-        } catch (JSONException e) {
-            Log.e("handlePaymentSuccess", "Error: " + e.toString())
+        } catch (JSONException e) { 
+            e.printStackTrace();
         }
 
         return PaymentDataRequest(paymentDataRequest);
