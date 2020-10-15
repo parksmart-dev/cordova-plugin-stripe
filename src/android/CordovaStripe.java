@@ -239,7 +239,7 @@ public class CordovaStripe extends CordovaPlugin
 
             */
 
-            const data = {
+             data = {
                 "apiVersion": 2,
                 "apiVersionMinor": 0,
                 "merchantInfo": {
