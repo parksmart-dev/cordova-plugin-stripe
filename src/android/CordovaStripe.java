@@ -101,6 +101,10 @@ public class CordovaStripe extends CordovaPlugin
         isReadyToPayRequestJson.put("allowedAuthMethods", allowedAuthMethods);
         isReadyToPayRequestJson.put("allowedCardNetworks", allowedCardNetworks);
 
+        final JSONObject tokenizationSpec = new JSONObject();
+        tokenizationSpec.put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY);
+        tokenizationSpec.put("parameters", new JSONObject() .put("gateway", "stripe"));
+
         return IsReadyToPayRequest.fromJson(isReadyToPayRequestJson.toString());
     }
 
@@ -149,10 +153,6 @@ public class CordovaStripe extends CordovaPlugin
 
     private JSONObject createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
-
-
-        try {
-
         final JSONObject tokenizationSpec = new JSONObject()
             .put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
             .put(
@@ -194,14 +194,10 @@ public class CordovaStripe extends CordovaPlugin
             )
             .put("merchantInfo", new JSONObject()
                 .put("merchantName", "Example Merchant"))
-            .put("emailRequired", false)
-            .toString();
-
-        } catch (JSONException e) { 
-            e.printStackTrace();
-        }
+            .put("emailRequired", false);
 
         return PaymentDataRequest.fromJson(paymentDataRequest);
+        
     }
 
 
