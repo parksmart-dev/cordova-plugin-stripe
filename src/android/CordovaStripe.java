@@ -184,15 +184,10 @@ public class CordovaStripe extends CordovaPlugin
 
         //final JSONObject tokenizationSpec = new GooglePayConfig().getTokenizationSpecification();
 
-        final JSONObject tokenizationSpec = new JSONObject()
-            .put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
-            .put(
-                "parameters",
-                new JSONObject()
-                    .put("gateway", "stripe")
-            );
+        final JSONObject tokenizationSpec =
+            new GooglePayConfig().getTokenizationSpecification();
 
-        final JSONObject cardPaymentMethod = new JSONObject()
+            final JSONObject cardPaymentMethod = new JSONObject()
             .put("type", "CARD")
             .put(
                 "parameters",
@@ -227,16 +222,17 @@ public class CordovaStripe extends CordovaPlugin
             .put("apiVersionMinor", 0)
             .put("allowedPaymentMethods",
                 new JSONArray().put(cardPaymentMethod))
-            .put("transactionInfo", new JSONObject()
-                .put("totalPrice", totalPrice)
-                .put("totalPriceStatus", WalletConstants.TOTAL_PRICE_STATUS_FINAL)
-                .put("currencyCode", currencyCode)
+            .put("transactionInfo", JSONObject()
+                .put("totalPrice", "10.00")
+                .put("totalPriceStatus", "FINAL")
+                .put("currencyCode", "GBP")
             )
             .put("merchantInfo", new JSONObject()
                 .put("merchantName", "Example Merchant"))
-            .put("emailRequired", false);
 
-            System.out.println(paymentDataRequest);
+            // require email address
+            .put("emailRequired", false)
+            .toString();
 
         return PaymentDataRequest.fromJson(paymentDataRequest);
     }
