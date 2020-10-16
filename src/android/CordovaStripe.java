@@ -134,22 +134,15 @@ public class CordovaStripe extends CordovaPlugin
             {
                 public void onComplete(Task<Boolean> task) 
                 {
-                    try 
+                    if (task.isSuccessful()) 
                     {
-                        if (task.isSuccessful()) 
-                        {
-                            // show Google Pay as payment option
-                            callbackContext.success();
-                        } 
-                        else 
-                        {
-                            // hide Google Pay as payment option
-                            callbackContext.error("GooglePay not supported.");
-                        }
+                        // show Google Pay as payment option
+                        callbackContext.success();
                     } 
-                    catch (ApiException exception) 
-                    { 
-                        callbackContext.error(exception.getLocalizedMessage());
+                    else 
+                    {
+                        // hide Google Pay as payment option
+                        callbackContext.error("GooglePay not supported.");
                     }
                 }
             }
