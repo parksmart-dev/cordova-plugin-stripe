@@ -150,9 +150,6 @@ public class CordovaStripe extends CordovaPlugin
     private JSONObject createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
 
-
-        try {
-
         final JSONObject tokenizationSpec = new JSONObject()
             .put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
             .put(
@@ -195,10 +192,6 @@ public class CordovaStripe extends CordovaPlugin
             .put("merchantInfo", new JSONObject()
                 .put("merchantName", "Example Merchant"))
             .put("emailRequired", false);
-
-        } catch (e: JSONException) {
-            Log.e("handlePaymentSuccess", "Error: " + e.toString())
-        }
 
         return PaymentDataRequest(paymentDataRequest);
     }
