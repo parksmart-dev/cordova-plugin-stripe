@@ -22,7 +22,6 @@ import com.google.android.gms.wallet.TransactionInfo;
 import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
 import com.google.android.gms.tasks.OnCompleteListener;
-
 import com.stripe.android.CardUtils;
 import com.stripe.android.Stripe;
 import com.stripe.android.model.AccountParams;
@@ -31,9 +30,6 @@ import com.stripe.android.model.Source;
 import com.stripe.android.model.SourceParams;
 import com.stripe.android.model.Token;
 import com.stripe.android.GooglePayConfig;
-import com.stripe.android.model.PaymentMethodCreateParams;
-import com.stripe.android.ApiResultCallback;
-import com.stripe.android.model.PaymentMethod;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
