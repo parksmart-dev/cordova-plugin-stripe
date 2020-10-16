@@ -235,20 +235,36 @@ public class CordovaStripe extends CordovaPlugin
         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode,
-                                @Nullable Intent data) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case LOAD_PAYMENT_DATA_REQUEST_CODE: {
                 switch (resultCode) {
                     case Activity.RESULT_OK: {
-                        if (data != null) {
-                            onGooglePayResult(data);
+                        PaymentData paymentData = PaymentData.getFromIntent(data);
+                        // You can get some data on the user's card, such as the
+                        // brand and last 4 digits
+                        CardInfo info = paymentData.getCardInfo();
+                        // You can also pull the user address from the
+                        // PaymentData object.
+                        UserAddress address = paymentData.getShippingAddress();
+                        // This is the raw JSON string version of your Stripe token.
+                        String rawToken = paymentData.getPaymentMethodToken()
+                            .getToken();
+
+                        // Now that you have a Stripe token object,
+                        // charge that by using the id
+                        Token stripeToken = Token.fromString(rawToken);
+                        if (stripeToken != null) {
+                            // This chargeToken function is a call to your own
+                            // server, which should then connect to Stripe's
+                            // API to finish the charge.
+                            chargeToken(stripeToken.getId());
                         }
                         break;
                     }
                     case Activity.RESULT_CANCELED: {
-                        // Canceled
                         break;
                     }
                     case AutoResolveHelper.RESULT_ERROR: {
@@ -269,30 +285,6 @@ public class CordovaStripe extends CordovaPlugin
                 // Handle any other startActivityForResult calls you may have made.
             }
         }
-    }
-
-    private void onGooglePayResult(@NonNull Intent data) {
-        final PaymentData paymentData = PaymentData.getFromIntent(data);
-        if (paymentData == null) {
-            return;
-        }
-
-        final PaymentMethodCreateParams paymentMethodCreateParams =
-            PaymentMethodCreateParams.createFromGooglePay(
-                new JSONObject(paymentData.toJson()));
-
-        stripe.createPaymentMethod(
-            paymentMethodCreateParams,
-            new ApiResultCallback<PaymentMethod>() {
-                @Override
-                public void onSuccess(@NonNull PaymentMethod result) {
-                }
-
-                @Override
-                public void onError(@NonNull Exception e) {
-                }
-            }
-        );
     }
 
     /*
