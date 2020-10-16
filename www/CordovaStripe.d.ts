@@ -12,6 +12,11 @@ export declare namespace CordovaStripe {
     export interface GooglePayInit {
         publishableKey: string;
       }
+    interface PaymentMethod {
+        id: string;
+        type: string;
+        created: Date;
+    }
     interface TokenResponse {
         id: string;
         type: string;
@@ -168,6 +173,6 @@ export declare namespace CordovaStripe {
          */
         static payWithApplePay(options: ApplePayOptions, success: (token: TokenResponse, callback: (paymentProcessed: boolean) => void) => void, error?: ErrorCallback): void;
         static initGooglePay(options: GooglePayInit, success?: any, error?: ErrorCallback): void;
-        static payWithGoogle(options: GooglePayOptions, success: (token: any) => void, error?: ErrorCallback): void;
+        static payWithGoogle(options: GooglePayOptions, success: (result: string) => void, error?: ErrorCallback): void;
     }
 }

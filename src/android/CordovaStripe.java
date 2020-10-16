@@ -308,9 +308,9 @@ public class CordovaStripe extends CordovaPlugin
                 paymentMethodCreateParams,
                 new ApiResultCallback<PaymentMethod>() {
                     @Override
-                    public void onSuccess(@NonNull JSONObject result) 
+                    public void onSuccess(@NonNull PaymentMethod result) 
                     {
-                        googlePayCallbackContext.success(result);
+                        googlePayCallbackContext.success(result.toString());
                     }
 
                     @Override
