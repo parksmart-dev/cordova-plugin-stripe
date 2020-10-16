@@ -196,7 +196,7 @@ public class CordovaStripe extends CordovaPlugin
                 .put("merchantName", "Example Merchant"))
             .put("emailRequired", false);
 
-        } catch (JSONException e) {
+        } catch (e: JSONException) {
             Log.e("handlePaymentSuccess", "Error: " + e.toString())
         }
 
