@@ -166,8 +166,8 @@ public class CordovaStripe extends CordovaPlugin
 
         final JSONObject cardPaymentMethod = new JSONObject();
         cardPaymentMethod.put("type", "CARD");
-        cardPaymentMethod.put("parameters", new JSONObject().put("allowedAuthMethods", allowedAuthMethods)
-                                                            .put("allowedCardNetworks", allowedCardNetworks));
+        cardPaymentMethod.put("parameters", new JSONObject().put("allowedAuthMethods", allowedAuthMethods));
+        cardPaymentMethod.put("parameters", new JSONObject().put("allowedCardNetworks", allowedCardNetworks));
         cardPaymentMethod.put("tokenizationSpecification", tokenizationSpec);
 
         final JSONObject paymentDataRequest = new JSONObject();
@@ -182,7 +182,7 @@ public class CordovaStripe extends CordovaPlugin
                                 .put("merchantName", "Example Merchant"));
         paymentDataRequest.put("emailRequired", false);
 
-        return PaymentDataRequest.fromJson(paymentDataRequest.toString());
+        return PaymentDataRequest(paymentDataRequest.toString());
 
         /*
         
