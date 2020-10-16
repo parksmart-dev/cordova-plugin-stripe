@@ -177,7 +177,7 @@ public class CordovaStripe extends CordovaPlugin
         paymentDataRequest.put("transactionInfo", new JSONObject()
                                 .put("totalPrice", totalPrice)
                                 .put("totalPriceStatus", WalletConstants.TOTAL_PRICE_STATUS_FINAL)
-                                .put("currencyCode", currencyCode))
+                                .put("currencyCode", currencyCode));
         paymentDataRequest.put("merchantInfo", new JSONObject()
                                 .put("merchantName", "Example Merchant"));
         paymentDataRequest.put("emailRequired", false);
