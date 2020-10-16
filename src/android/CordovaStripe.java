@@ -147,7 +147,7 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode) 
+    private void createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
 
         return PaymentDataRequest.fromJson("{"
