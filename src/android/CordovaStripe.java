@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import java.util.Optional;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
