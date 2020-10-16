@@ -153,7 +153,7 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode) 
+    private Optional<JSONObject> createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
 
         return PaymentDataRequest.fromJson("{"
@@ -285,7 +285,7 @@ public class CordovaStripe extends CordovaPlugin
             PaymentMethodCreateParams.createFromGooglePay(
                 new JSONObject(paymentData.toJson()));
 
-        stripeInstance.createPaymentMethod(
+        stripe.createPaymentMethod(
             paymentMethodCreateParams,
             new ApiResultCallback<PaymentMethod>() {
                 @Override
