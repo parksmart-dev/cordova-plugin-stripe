@@ -149,8 +149,6 @@ public class CordovaStripe extends CordovaPlugin
 
     private JSONObject createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
-
-        /*
         return PaymentDataRequest.fromJson('{
             "apiVersion": 2,
             "apiVersionMinor": 0,
@@ -179,7 +177,6 @@ public class CordovaStripe extends CordovaPlugin
             }
           }');
           
-          */
 
 
         //final JSONObject tokenizationSpec = new GooglePayConfig().getTokenizationSpecification();
