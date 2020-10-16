@@ -186,7 +186,32 @@ public class CordovaStripe extends CordovaPlugin
 
 
             final JSONObject cardPaymentMethod = new JSONObject()
-            .put("type", "CARD").toString();
+            .put("type", "CARD")
+            .put(
+                "parameters",
+                new JSONObject()
+                    .put("allowedAuthMethods", new JSONArray()
+                        .put("PAN_ONLY")
+                        .put("CRYPTOGRAM_3DS"))
+                    .put("allowedCardNetworks",
+                        new JSONArray()
+                            .put("AMEX")
+                            .put("DISCOVER")
+                            .put("MASTERCARD")
+                            .put("VISA"))
+
+                    // require billing address
+                    .put("billingAddressRequired", false)
+                    .put(
+                        "billingAddressParameters",
+                        new JSONObject()
+                            // require full billing address
+                            .put("format", "MIN")
+
+                            // require phone number
+                            .put("phoneNumberRequired", false)
+                    )
+            ).toString();
 
             /*
         // create PaymentDataRequest
