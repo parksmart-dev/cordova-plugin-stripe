@@ -195,19 +195,9 @@ public class CordovaStripe extends CordovaPlugin
             .put("emailRequired", false);
         */
 
-        final JSONArray allowedAuthMethods = new JSONArray();
+        final JSONObject allowedAuthMethods = new JSONObject();
         allowedAuthMethods.put("PAN_ONLY");
-        allowedAuthMethods.put("CRYPTOGRAM_3DS");
-
-        final JSONArray allowedCardNetworks = new JSONArray();
-        allowedCardNetworks.put("AMEX");
-        allowedCardNetworks.put("DISCOVER");
-        allowedCardNetworks.put("MASTERCARD");
-        allowedCardNetworks.put("VISA");
-
-        final JSONObject isReadyToPayRequestJson = new JSONObject();
-        isReadyToPayRequestJson.put("allowedAuthMethods", allowedAuthMethods);
-        isReadyToPayRequestJson.put("allowedCardNetworks", allowedCardNetworks);
+        allowedAuthMethods.put("CRYPTOGRAM_3DS").toString();
 
         return PaymentDataRequest.fromJson(isReadyToPayRequestJson);
         
