@@ -28,6 +28,9 @@ import com.stripe.android.model.Source;
 import com.stripe.android.model.SourceParams;
 import com.stripe.android.model.Token;
 import com.stripe.android.GooglePayConfig;
+import com.stripe.android.model.PaymentMethodCreateParams;
+import com.stripe.android.ApiResultCallback;
+import com.stripe.android.model.PaymentMethod;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -299,27 +302,27 @@ public class CordovaStripe extends CordovaPlugin
         {
             JSONObject jsonObj = new JSONObject(paymentData.toJson());
 
+            PaymentMethodCreateParams paymentMethodCreateParams = PaymentMethodCreateParams.createFromGooglePay(jsonObj);
+
+            stripe.createPaymentMethod(
+                paymentMethodCreateParams,
+                new ApiResultCallback<PaymentMethod>() {
+                    @Override
+                    public void onSuccess(@NonNull PaymentMethod result) 
+                    {
+                        googlePayCallbackContext.success(result);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Exception e) 
+                    {
+                        googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
+                    }
+                }
+            );
+
         } catch (JSONException e) {
             //some exception handler code.
-        }  
-
-        PaymentMethodCreateParams paymentMethodCreateParams = PaymentMethodCreateParams.createFromGooglePay(jsonObj);
-
-        stripe.createPaymentMethod(
-            paymentMethodCreateParams,
-            new ApiResultCallback<PaymentMethod>() {
-                @Override
-                public void onSuccess(@NonNull PaymentMethod result) 
-                {
-                    googlePayCallbackContext.success(result);
-                }
-
-                @Override
-                public void onError(@NonNull Exception e) 
-                {
-                    googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
-                }
-            }
-        );
+        }
     }
 }
