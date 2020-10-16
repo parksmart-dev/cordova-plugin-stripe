@@ -196,10 +196,11 @@ public class CordovaStripe extends CordovaPlugin
         */
 
         final JSONObject allowedAuthMethods = new JSONObject();
-        allowedAuthMethods.put("PAN_ONLY");
-        allowedAuthMethods.put("CRYPTOGRAM_3DS").toString();
-
-        return PaymentDataRequest.fromJson(isReadyToPayRequestJson);
+        allowedAuthMethods.put("PAN_ONLY", 2);
+        allowedAuthMethods.put("CRYPTOGRAM_3DS", 3);
+        allowedAuthMethods.toString();
+        
+        return PaymentDataRequest.fromJson(allowedAuthMethods);
         
     }
 
