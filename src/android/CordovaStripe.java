@@ -85,8 +85,14 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private IsReadyToPayRequest createIsReadyToPayRequest() throws JSONException 
+    private IsReadyToPayRequest createIsReadyToPayRequest()
     {
+        return IsReadyToPayRequest.fromJson("{"
+            + "\"allowedAuthMethods\": [\"PAN_ONLY\", \"CRYPTOGRAM_3DS\"],"
+            + "\"allowedCardNetworks\": [\"AMEX\", \"DISCOVER\", \"MASTERCARD\", \"VISA\"]"
+            + "}");
+
+        /*    
         final JSONArray allowedAuthMethods = new JSONArray();
         allowedAuthMethods.put("PAN_ONLY");
         allowedAuthMethods.put("CRYPTOGRAM_3DS");
@@ -102,6 +108,7 @@ public class CordovaStripe extends CordovaPlugin
         isReadyToPayRequestJson.put("allowedCardNetworks", allowedCardNetworks);
 
         return IsReadyToPayRequest.fromJson(isReadyToPayRequestJson.toString());
+        */
     }
 
 
@@ -147,40 +154,37 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private JSONObject createPaymentDataRequest(String totalPrice, String currencyCode) 
+    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
-        return PaymentDataRequest.fromJson('{
-            "apiVersion": 2,
-            "apiVersionMinor": 0,
-            "merchantInfo": {
-              "merchantName": "Example Merchant"
-            },
-            "allowedPaymentMethods": [
-              {
-                "type": "CARD",
-                "parameters": {
-                  "allowedAuthMethods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                  "allowedCardNetworks": ["AMEX", "DISCOVER", "MASTERCARD", "VISA"]
-                },
-                "tokenizationSpecification": {
-                  "type": "' +  WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY + '",
-                  "parameters": {
-                    "gateway": "stripe"
-                  }
-                }
-              }
-            ],
-            "transactionInfo": {
-              "totalPriceStatus": "' + WalletConstants.TOTAL_PRICE_STATUS_FINAL + '",
-              "totalPrice": "' + totalPrice + '",
-              "currencyCode": "' + currencyCode + '"
-            }
-          }');
+        return PaymentDataRequest.fromJson("{"
+        + "\"apiVersion\": 2,"
+        + "\"apiVersionMinor\": 0,"
+        + "\"merchantInfo\": {"
+            + "\"merchantName\": \"Example Merchant\""
+            + "},"
+            + "\"allowedPaymentMethods\": ["
+                + "{"
+                    + "\"type\": \"CARD\","
+                    + "\"parameters\": {"
+                        + "\"allowedAuthMethods\": [\"PAN_ONLY\", \"CRYPTOGRAM_3DS\"],"
+                        + "\"allowedCardNetworks\": [\"AMEX\", \"DISCOVER\", \"MASTERCARD\", \"VISA\"]"
+                        + "},"
+                        + "\"tokenizationSpecification\": {"
+                            + "\"type\": \" +  WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY + \","
+                            + "\"parameters\": {"
+                                + "\"gateway\": \"stripe\""
+                                + "}"
+                                + "}"
+                                + "}"
+                                + "],"
+                                + "\"transactionInfo\": {"
+                                    + "\"totalPriceStatus\": \" + WalletConstants.TOTAL_PRICE_STATUS_FINAL + \","
+                                    + "\"totalPrice\": \" + totalPrice + \","
+                                    + "\"currencyCode\": \" + currencyCode + \""
+                                    + "}"
+                                    + "}");
           
-
-
-        //final JSONObject tokenizationSpec = new GooglePayConfig().getTokenizationSpecification();
-
+        /*
         final JSONObject tokenizationSpec = new JSONObject()
             .put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
             .put(
@@ -235,6 +239,7 @@ public class CordovaStripe extends CordovaPlugin
             .toString();
 
         return PaymentDataRequest.fromJson(paymentDataRequest);
+        */
     }
 
 
@@ -290,7 +295,15 @@ public class CordovaStripe extends CordovaPlugin
             return;
         }
 
-        PaymentMethodCreateParams paymentMethodCreateParams = PaymentMethodCreateParams.createFromGooglePay(new JSONObject(paymentData.toJson()));
+        try 
+        {
+            JSONObject jsonObj = new JSONObject(paymentData.toJson());
+
+        } catch (JSONException e) {
+            //some exception handler code.
+        }  
+
+        PaymentMethodCreateParams paymentMethodCreateParams = PaymentMethodCreateParams.createFromGooglePay(jsonObj);
 
         stripe.createPaymentMethod(
             paymentMethodCreateParams,
