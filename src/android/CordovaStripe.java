@@ -91,7 +91,7 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private IsReadyToPayRequest createIsReadyToPayRequest() throws JSONException 
+    private IsReadyToPayRequest createIsReadyToPayRequest()
     {
         final JSONArray allowedAuthMethods = new JSONArray();
         allowedAuthMethods.put("PAN_ONLY");
@@ -130,22 +130,15 @@ public class CordovaStripe extends CordovaPlugin
             {
                 public void onComplete(Task<Boolean> task) 
                 {
-                    try 
+                    if (task.isSuccessful()) 
                     {
-                        if (task.isSuccessful()) 
-                        {
-                            // show Google Pay as payment option
-                            callbackContext.success();
-                        } 
-                        else 
-                        {
-                            // hide Google Pay as payment option
-                            callbackContext.error("GooglePay not supported.");
-                        }
+                        // show Google Pay as payment option
+                        callbackContext.success();
                     } 
-                    catch (ApiException exception) 
-                    { 
-                        callbackContext.error(exception.getLocalizedMessage());
+                    else 
+                    {
+                        // hide Google Pay as payment option
+                        callbackContext.error("GooglePay not supported.");
                     }
                 }
             }
@@ -156,6 +149,7 @@ public class CordovaStripe extends CordovaPlugin
     private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
 
+        /*
         return PaymentDataRequest.fromJson("{"
         + "\"apiVersion\": 2,"
         + "\"apiVersionMinor\": 0,"
@@ -183,8 +177,8 @@ public class CordovaStripe extends CordovaPlugin
                                     + "\"currencyCode\": \" + currencyCode + \""
                                     + "}"
                                     + "}");
+                                    */
 
-        /*
 
         final JSONObject tokenizationSpec = new JSONObject();
         tokenizationSpec.put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY);
@@ -219,10 +213,7 @@ public class CordovaStripe extends CordovaPlugin
                                 .put("merchantName", "Example Merchant"));
         paymentDataRequest.put("emailRequired", false);
 
-        return PaymentDataRequest.fromJson(paymentDataRequest.toString());
-
-        */
-        
+        return PaymentDataRequest.fromJson(paymentDataRequest.toString());        
     }
 
     
@@ -238,6 +229,7 @@ public class CordovaStripe extends CordovaPlugin
             googlePayCallbackContext = callbackContext;
         });
     }
+    
 
     public void onActivityResult(int requestCode, int resultCode,
                                 @Nullable Intent data) {
