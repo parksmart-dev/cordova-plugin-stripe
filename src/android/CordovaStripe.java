@@ -182,54 +182,7 @@ public class CordovaStripe extends CordovaPlugin
                                 .put("merchantName", "Example Merchant"));
         paymentDataRequest.put("emailRequired", false);
 
-        return PaymentDataRequest.fromJson(paymentDataRequest);
-
-        /*
-        
-        final JSONObject tokenizationSpec = new JSONObject()
-            .put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
-            .put(
-                "parameters",
-                new JSONObject()
-                    .put("gateway", "stripe")
-            );
-
-        final JSONObject cardPaymentMethod = new JSONObject()
-            .put("type", "CARD")
-            .put(
-                "parameters",
-                new JSONObject()
-                    .put("allowedAuthMethods", new JSONArray()
-                        .put("PAN_ONLY")
-                        .put("CRYPTOGRAM_3DS"))
-                    .put("allowedCardNetworks",
-                        new JSONArray()
-                            .put("AMEX")
-                            .put("DISCOVER")
-                            .put("MASTERCARD")
-                            .put("VISA"))
-
-                    // require billing address
-                    .put("billingAddressRequired", false)
-            )
-            .put("tokenizationSpecification", tokenizationSpec);
-            
-
-        // create PaymentDataRequest
-        final JSONObject paymentDataRequest = new JSONObject()
-            .put("apiVersion", 2)
-            .put("apiVersionMinor", 0)
-            .put("allowedPaymentMethods",
-                new JSONArray().put(cardPaymentMethod))
-            .put("transactionInfo", new JSONObject()
-                .put("totalPrice", totalPrice)
-                .put("totalPriceStatus", WalletConstants.TOTAL_PRICE_STATUS_FINAL)
-                .put("currencyCode", currencyCode)
-            )
-            .put("merchantInfo", new JSONObject()
-                .put("merchantName", "Example Merchant"))
-            .put("emailRequired", false);
-        */
+        return PaymentDataRequest.fromJson(paymentDataRequest.toString());
         
     }
 
