@@ -149,7 +149,8 @@ public class CordovaStripe extends CordovaPlugin
 
     private JSONObject createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
-        jsonString = '{
+
+        return PaymentDataRequest.fromJson('{
             "apiVersion": 2,
             "apiVersionMinor": 0,
             "merchantInfo": {
@@ -175,9 +176,7 @@ public class CordovaStripe extends CordovaPlugin
               "totalPrice": "' + totalPrice + '",
               "currencyCode": "' + currencyCode + '"
             }
-          }';
-
-        return PaymentDataRequest.fromJson(jsonString);
+          }');
 
         /*
 
