@@ -211,9 +211,8 @@ public class CordovaStripe extends CordovaPlugin
                             // require phone number
                             .put("phoneNumberRequired", false)
                     )
-            ).toString();
+            );
 
-            /*
         // create PaymentDataRequest
         final JSONObject paymentDataRequest = new JSONObject()
             .put("apiVersion", 2)
@@ -231,7 +230,7 @@ public class CordovaStripe extends CordovaPlugin
             // require email address
             .put("emailRequired", false)
             .toString();
-*/
+
         return PaymentDataRequest.fromJson(paymentDataRequest);
     }
 
