@@ -184,7 +184,6 @@ public class CordovaStripe extends CordovaPlugin
 
         //final JSONObject tokenizationSpec = new GooglePayConfig().getTokenizationSpecification();
 
-        /*
         final JSONObject tokenizationSpec = new JSONObject()
             .put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
             .put(
@@ -237,37 +236,7 @@ public class CordovaStripe extends CordovaPlugin
                 .put("merchantName", "Example Merchant"))
             .put("emailRequired", false);
 
-            */
-
-            const data = {
-                "apiVersion": 2,
-                "apiVersionMinor": 0,
-                "merchantInfo": {
-                  "merchantName": "Example Merchant"
-                },
-                "allowedPaymentMethods": [
-                  {
-                    "type": "CARD",
-                    "parameters": {
-                      "allowedAuthMethods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
-                      "allowedCardNetworks": ["AMEX", "DISCOVER", "INTERAC", "JCB", "MASTERCARD", "VISA"]
-                    },
-                    "tokenizationSpecification": {
-                      "type": "PAYMENT_GATEWAY",
-                      "parameters": {
-                        "gateway": "stripe"
-                      }
-                    }
-                  }
-                ],
-                "transactionInfo": {
-                  "totalPriceStatus": "FINAL",
-                  "totalPrice": "12.34",
-                  "currencyCode": "GBP"
-                }
-              }
-
-        return PaymentDataRequest.fromJson(data);
+        return PaymentDataRequest.fromJson(paymentDataRequest);
     }
 
 
