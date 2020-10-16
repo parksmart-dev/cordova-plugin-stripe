@@ -304,7 +304,7 @@ public class CordovaStripe extends CordovaPlugin
 
             PaymentMethodCreateParams paymentMethodCreateParams = PaymentMethodCreateParams.createFromGooglePay(jsonObj);
 
-            stripe.createPaymentMethod(
+            stripeInstance.createPaymentMethod(
                 paymentMethodCreateParams,
                 new ApiResultCallback<PaymentMethod>() {
                     @Override
