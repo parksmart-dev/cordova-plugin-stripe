@@ -149,8 +149,43 @@ public class CordovaStripe extends CordovaPlugin
 
     private JSONObject createPaymentDataRequest(String totalPrice, String currencyCode) 
     {
+        final JSONObject tokenizationSpec = new JSONObject();
+        tokenizationSpec.put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY);
+        tokenizationSpec.put("parameters", new JSONObject().put("gateway", "stripe"));
+
+        final JSONArray allowedAuthMethods = new JSONArray();
+        allowedAuthMethods.put("PAN_ONLY");
+        allowedAuthMethods.put("CRYPTOGRAM_3DS");
+
+        final JSONArray allowedCardNetworks = new JSONArray();
+        allowedCardNetworks.put("AMEX");
+        allowedCardNetworks.put("DISCOVER");
+        allowedCardNetworks.put("MASTERCARD");
+        allowedCardNetworks.put("VISA");
+
+
+        final JSONObject cardPaymentMethod = new JSONObject();
+        cardPaymentMethod.put("type", "CARD");
+        cardPaymentMethod.put("parameters", new JSONObject().put("allowedAuthMethods", allowedAuthMethods);
+        cardPaymentMethod.put("parameters", new JSONObject().put("allowedCardNetworks", allowedCardNetworks);
+        cardPaymentMethod.put("tokenizationSpecification", tokenizationSpec);
+
+        final JSONObject paymentDataRequest = new JSONObject();
+        paymentDataRequest.put("apiVersion", 2);
+        paymentDataRequest.put("apiVersionMinor", 0);
+        paymentDataRequest.put("allowedPaymentMethods", new JSONArray().put(cardPaymentMethod));
+        paymentDataRequest.put("transactionInfo", new JSONObject()
+                                .put("totalPrice", totalPrice)
+                                .put("totalPriceStatus", WalletConstants.TOTAL_PRICE_STATUS_FINAL)
+                                .put("currencyCode", currencyCode))
+        paymentDataRequest.put("merchantInfo", new JSONObject()
+                                .put("merchantName", "Example Merchant"));
+        paymentDataRequest.put("emailRequired", false);
+
+        return PaymentDataRequest.fromJson(paymentDataRequest.toString());
 
         /*
+        
         final JSONObject tokenizationSpec = new JSONObject()
             .put("type", WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
             .put(
@@ -178,6 +213,7 @@ public class CordovaStripe extends CordovaPlugin
                     .put("billingAddressRequired", false)
             )
             .put("tokenizationSpecification", tokenizationSpec);
+            
 
         // create PaymentDataRequest
         final JSONObject paymentDataRequest = new JSONObject()
@@ -194,13 +230,6 @@ public class CordovaStripe extends CordovaPlugin
                 .put("merchantName", "Example Merchant"))
             .put("emailRequired", false);
         */
-
-        final JSONObject allowedAuthMethods = new JSONObject();
-        allowedAuthMethods.put("PAN_ONLY", 2);
-        allowedAuthMethods.put("CRYPTOGRAM_3DS", 3);
-        allowedAuthMethods.toString();
-        
-        return PaymentDataRequest.fromJson(allowedAuthMethods);
         
     }
 
