@@ -219,6 +219,7 @@ public class CordovaStripe extends CordovaPlugin
         
     }
 
+
     
     private void payWithGooglePay(String totalPrice, String currencyCode, final CallbackContext callbackContext) 
     {
@@ -233,61 +234,6 @@ public class CordovaStripe extends CordovaPlugin
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case LOAD_PAYMENT_DATA_REQUEST_CODE: {
-                switch (resultCode) {
-                    case Activity.RESULT_OK: {
-                        PaymentData paymentData = PaymentData.getFromIntent(data);
-                        // You can get some data on the user's card, such as the
-                        // brand and last 4 digits
-                        CardInfo info = paymentData.getCardInfo();
-                        // You can also pull the user address from the
-                        // PaymentData object.
-                        UserAddress address = paymentData.getShippingAddress();
-                        // This is the raw JSON string version of your Stripe token.
-                        String rawToken = paymentData.getPaymentMethodToken()
-                            .getToken();
-
-                        // Now that you have a Stripe token object,
-                        // charge that by using the id
-                        Token stripeToken = Token.fromString(rawToken);
-                        if (stripeToken != null) {
-                            // This chargeToken function is a call to your own
-                            // server, which should then connect to Stripe's
-                            // API to finish the charge.
-                            chargeToken(stripeToken.getId());
-                        }
-                        break;
-                    }
-                    case Activity.RESULT_CANCELED: {
-                        break;
-                    }
-                    case AutoResolveHelper.RESULT_ERROR: {
-                        // Log the status for debugging
-                        // Generally there is no need to show an error to
-                        // the user as the Google Payment API will do that
-                        final Status status =
-                            AutoResolveHelper.getStatusFromIntent(data);
-                        break;
-                    }
-                    default: {
-                        // Do nothing.
-                    }
-                }
-                break;
-            }
-            default: {
-                // Handle any other startActivityForResult calls you may have made.
-            }
-        }
-    }
-
-    /*
-
-    OLD CODE
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) 
@@ -316,9 +262,6 @@ public class CordovaStripe extends CordovaPlugin
         }
     }
 
-    */
-
-    /*
 
     private void onGooglePayResult(@NonNull Intent data) 
     {
@@ -348,6 +291,4 @@ public class CordovaStripe extends CordovaPlugin
             }
         );
     }
-
-    */
 }
