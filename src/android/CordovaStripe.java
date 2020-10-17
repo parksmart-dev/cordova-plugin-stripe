@@ -127,6 +127,8 @@ public class CordovaStripe extends CordovaPlugin
                     .setEnvironment(publishableKey == null || publishableKey.contains("test") ? WalletConstants.ENVIRONMENT_TEST : WalletConstants.ENVIRONMENT_PRODUCTION)
                     .build());
 
+        IsReadyToPayRequest request = createIsReadyToPayRequest();
+        
         Task<Boolean> task = paymentsClient.isReadyToPay(request);
         task.addOnCompleteListener(
                 (Task<Boolean> task1) -> {
