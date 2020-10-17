@@ -252,7 +252,7 @@ public class CordovaStripe extends CordovaPlugin
                     LOAD_PAYMENT_DATA_REQUEST_CODE
             );
 
-            this.googlePayCallbackContext = callbackContext;
+            googlePayCallbackContext = callbackContext;
         });
     }
 
@@ -278,7 +278,7 @@ public class CordovaStripe extends CordovaPlugin
 
                 case AutoResolveHelper.RESULT_ERROR:
                     Status status = AutoResolveHelper.getStatusFromIntent(intent);
-                    this.googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + status.toString());
+                    googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + status.toString());
                     break;
             }
         }
@@ -306,13 +306,13 @@ public class CordovaStripe extends CordovaPlugin
                     @Override
                     public void onSuccess(@NonNull PaymentMethod result) 
                     {
-                        this.googlePayCallbackContext.success(result.toString());
+                        googlePayCallbackContext.success(result.toString());
                     }
 
                     @Override
                     public void onError(@NonNull Exception e) 
                     {
-                        this.googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
+                        googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
                     }
                 }
             );
