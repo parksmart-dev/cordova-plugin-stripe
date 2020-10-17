@@ -57,15 +57,11 @@ public class CordovaStripe extends CordovaPlugin
     private PaymentMethodTokenizationParameters googlePayParams;
     private final int LOAD_PAYMENT_DATA_REQUEST_CODE = 53;
     private CallbackContext googlePayCallbackContext;
-    private CordovaWebView webView;
-    private CordovaInterface cordova;
 
     
     public void initialize(CordovaInterface cordova, CordovaWebView webView) 
     {
         super.initialize(cordova, webView);
-        webView = webView;
-        cordova = cordova;
     }
 
 
@@ -96,48 +92,29 @@ public class CordovaStripe extends CordovaPlugin
             + "\"allowedAuthMethods\": [\"PAN_ONLY\", \"CRYPTOGRAM_3DS\"],"
             + "\"allowedCardNetworks\": [\"AMEX\", \"DISCOVER\", \"MASTERCARD\", \"VISA\"]"
             + "}");
-
-        /*    
-        final JSONArray allowedAuthMethods = new JSONArray();
-        allowedAuthMethods.put("PAN_ONLY");
-        allowedAuthMethods.put("CRYPTOGRAM_3DS");
-
-        final JSONArray allowedCardNetworks = new JSONArray();
-        allowedCardNetworks.put("AMEX");
-        allowedCardNetworks.put("DISCOVER");
-        allowedCardNetworks.put("MASTERCARD");
-        allowedCardNetworks.put("VISA");
-
-        final JSONObject isReadyToPayRequestJson = new JSONObject();
-        isReadyToPayRequestJson.put("allowedAuthMethods", allowedAuthMethods);
-        isReadyToPayRequestJson.put("allowedCardNetworks", allowedCardNetworks);
-
-        return IsReadyToPayRequest.fromJson(isReadyToPayRequestJson.toString());
-        */
     }
 
 
-    private void initGooglePay(final String key, final CallbackContext callbackContext) 
+    private void initGooglePay(String key, final CallbackContext callbackContext) 
     {
-        publishableKey = key;
+        this.publishableKey = key;
 
-        stripeInstance = new Stripe(webView.getContext(), publishableKey);
+        this.stripeInstance = new Stripe(this.webView.getContext(), this.publishableKey);
 
-        paymentsClient = Wallet.getPaymentsClient(
-                cordova.getContext(),
+        this.paymentsClient = Wallet.getPaymentsClient(
+                this.cordova.getContext(),
                 new Wallet.WalletOptions.Builder()
-                    .setEnvironment(publishableKey == null || publishableKey.contains("test") ? WalletConstants.ENVIRONMENT_TEST : WalletConstants.ENVIRONMENT_PRODUCTION)
+                    .setEnvironment(this.publishableKey == null || this.publishableKey.contains("test") ? WalletConstants.ENVIRONMENT_TEST : WalletConstants.ENVIRONMENT_PRODUCTION)
                     .build());
 
-        IsReadyToPayRequest request = createIsReadyToPayRequest();
+        IsReadyToPayRequest request = this.createIsReadyToPayRequest();
         
         Task<Boolean> task = paymentsClient.isReadyToPay(request);
         task.addOnCompleteListener(
                 (Task<Boolean> task1) -> {
                     try {
-                        googlePayReady =
-                                task1.getResult(ApiException.class);
-                        if (googlePayReady) {
+                        this.googlePayReady = task1.getResult(ApiException.class);
+                        if (this.googlePayReady) {
                             //show Google as payment option
 
                             callbackContext.success();
@@ -270,12 +247,12 @@ public class CordovaStripe extends CordovaPlugin
     {
         cordova.getActivity().runOnUiThread(() -> {
             AutoResolveHelper.resolveTask(
-                    paymentsClient.loadPaymentData(createPaymentDataRequest(totalPrice, currencyCode)),
+                    paymentsClient.loadPaymentData(this.createPaymentDataRequest(totalPrice, currencyCode)),
                     cordova.getActivity(),
                     LOAD_PAYMENT_DATA_REQUEST_CODE
             );
 
-            googlePayCallbackContext = callbackContext;
+            this.googlePayCallbackContext = callbackContext;
         });
     }
 
@@ -291,7 +268,7 @@ public class CordovaStripe extends CordovaPlugin
 
                     if (intent != null) 
                     {
-                        onGooglePayResult(intent);
+                        this.onGooglePayResult(intent);
                     }
                     
                     break;
@@ -301,7 +278,7 @@ public class CordovaStripe extends CordovaPlugin
 
                 case AutoResolveHelper.RESULT_ERROR:
                     Status status = AutoResolveHelper.getStatusFromIntent(intent);
-                    googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + status.toString());
+                    this.googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + status.toString());
                     break;
             }
         }
@@ -329,13 +306,13 @@ public class CordovaStripe extends CordovaPlugin
                     @Override
                     public void onSuccess(@NonNull PaymentMethod result) 
                     {
-                        googlePayCallbackContext.success(result.toString());
+                        this.googlePayCallbackContext.success(result.toString());
                     }
 
                     @Override
                     public void onError(@NonNull Exception e) 
                     {
-                        googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
+                        this.googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
                     }
                 }
             );
