@@ -127,6 +127,27 @@ public class CordovaStripe extends CordovaPlugin
                     .setEnvironment(publishableKey == null || publishableKey.contains("test") ? WalletConstants.ENVIRONMENT_TEST : WalletConstants.ENVIRONMENT_PRODUCTION)
                     .build());
 
+        Task<Boolean> task = paymentsClient.isReadyToPay(request);
+        task.addOnCompleteListener(
+                (Task<Boolean> task1) -> {
+                    try {
+                        googlePayReady =
+                                task1.getResult(ApiException.class);
+                        if (googlePayReady) {
+                            //show Google as payment option
+
+                            callbackContext.success();
+                        } else {
+                            //hide Google as payment option
+                            callbackContext.error("GooglePay not supported.");
+                        }
+                    } catch (ApiException exception) {
+                        callbackContext.error(exception.getLocalizedMessage());
+                    }
+                });
+
+        /*            
+
         IsReadyToPayRequest request = createIsReadyToPayRequest();
 
         paymentsClient.isReadyToPay(request).addOnCompleteListener(
@@ -147,6 +168,7 @@ public class CordovaStripe extends CordovaPlugin
                 }
             }
         );
+        */
     }
 
 
