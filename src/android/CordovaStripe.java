@@ -58,12 +58,14 @@ public class CordovaStripe extends CordovaPlugin
     private final int LOAD_PAYMENT_DATA_REQUEST_CODE = 53;
     private CallbackContext googlePayCallbackContext;
     private CordovaWebView webView;
+    private CordovaInterface cordova;
 
     
     public void initialize(CordovaInterface cordova, CordovaWebView webView) 
     {
         super.initialize(cordova, webView);
         webView = webView;
+        cordova = cordova;
     }
 
 
