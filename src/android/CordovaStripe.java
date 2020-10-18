@@ -265,13 +265,16 @@ public class CordovaStripe extends CordovaPlugin
             return;
         }
 
-        final PaymentMethodCreateParams paymentMethodCreateParams =
+        try{
+            final PaymentMethodCreateParams paymentMethodCreateParams =
             PaymentMethodCreateParams.createFromGooglePay(
-                try {
+
                     new JSONObject(paymentData.toJson()));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         stripeInstance.createPaymentMethod(
             paymentMethodCreateParams,
