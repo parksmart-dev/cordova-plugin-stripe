@@ -296,6 +296,7 @@ public class CordovaStripe extends CordovaPlugin
 
         if (paymentData == null) 
         {
+            googlePayCallbackContext.error("Error with paymentData");
             return;
         }
 
