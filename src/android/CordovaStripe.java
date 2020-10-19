@@ -108,24 +108,24 @@ public class CordovaStripe extends CordovaPlugin
 
     private void initGooglePay(String key, final CallbackContext callbackContext) 
     {
-        this.publishableKey = key;
+        publishableKey = key;
 
-        this.stripeInstance = new Stripe(this.webView.getContext(), this.publishableKey);
+        stripeInstance = new Stripe(webView.getContext(), publishableKey);
 
-        this.paymentsClient = Wallet.getPaymentsClient(
-                this.cordova.getContext(),
+        paymentsClient = Wallet.getPaymentsClient(
+                cordova.getContext(),
                 new Wallet.WalletOptions.Builder()
-                    .setEnvironment(this.publishableKey == null || this.publishableKey.contains("test") ? WalletConstants.ENVIRONMENT_TEST : WalletConstants.ENVIRONMENT_PRODUCTION)
+                    .setEnvironment(publishableKey == null || publishableKey.contains("test") ? WalletConstants.ENVIRONMENT_TEST : WalletConstants.ENVIRONMENT_PRODUCTION)
                     .build());
 
-        IsReadyToPayRequest request = this.createIsReadyToPayRequest();
+        IsReadyToPayRequest request = createIsReadyToPayRequest();
         
         Task<Boolean> task = paymentsClient.isReadyToPay(request);
         task.addOnCompleteListener(
                 (Task<Boolean> task1) -> {
                     try {
-                        this.googlePayReady = task1.getResult(ApiException.class);
-                        if (this.googlePayReady) {
+                        googlePayReady = task1.getResult(ApiException.class);
+                        if (googlePayReady) {
                             //show Google as payment option
 
                             callbackContext.success();
@@ -260,7 +260,7 @@ public class CordovaStripe extends CordovaPlugin
     {
         cordova.getActivity().runOnUiThread(() -> {
             AutoResolveHelper.resolveTask(
-                    paymentsClient.loadPaymentData(this.createPaymentDataRequest(totalPrice, currencyCode)),
+                    paymentsClient.loadPaymentData(createPaymentDataRequest(totalPrice, currencyCode)),
                     cordova.getActivity(),
                     LOAD_PAYMENT_DATA_REQUEST_CODE
             );
@@ -281,7 +281,7 @@ public class CordovaStripe extends CordovaPlugin
 
                     if (intent != null) 
                     {
-                        this.onGooglePayResult(intent);
+                        onGooglePayResult(intent);
                     }
                     
                     break;
