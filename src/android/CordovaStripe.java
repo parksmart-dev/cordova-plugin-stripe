@@ -271,23 +271,23 @@ public class CordovaStripe extends CordovaPlugin
 
                     new JSONObject(paymentData.toJson()));
                 
+
+            stripeInstance.createPaymentMethod(
+                paymentMethodCreateParams,
+                new ApiResultCallback<PaymentMethod>() {
+                    @Override
+                    public void onSuccess(@NonNull PaymentMethod result) {
+                    }
+
+                    @Override
+                    public void onError(@NonNull Exception e) {
+                    }
+                }
+            );
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-        stripeInstance.createPaymentMethod(
-            paymentMethodCreateParams,
-            new ApiResultCallback<PaymentMethod>() {
-                @Override
-                public void onSuccess(@NonNull PaymentMethod result) {
-                }
-
-                @Override
-                public void onError(@NonNull Exception e) {
-                }
-            }
-        );
     }
 
 
