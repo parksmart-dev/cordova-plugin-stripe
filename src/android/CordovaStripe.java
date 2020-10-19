@@ -294,6 +294,7 @@ public class CordovaStripe extends CordovaPlugin
     {
         PaymentData paymentData = PaymentData.getFromIntent(data);
 
+        paymentData = null;
         if (paymentData == null) 
         {
             googlePayCallbackContext.error("Error with paymentData");
@@ -324,7 +325,7 @@ public class CordovaStripe extends CordovaPlugin
             );
 
         } catch (JSONException e) {
-            //some exception handler code.
+            googlePayCallbackContext.error("JSON error");
         }
     }
 }
