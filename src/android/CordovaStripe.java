@@ -5,7 +5,6 @@ import android.content.Intent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
@@ -185,7 +184,6 @@ public class CordovaStripe extends CordovaPlugin
             + "},"
             + "\"emailRequired\": \"false\""
         + "}");
-        
           
         /*
         final JSONObject tokenizationSpec = new JSONObject()
@@ -260,76 +258,7 @@ public class CordovaStripe extends CordovaPlugin
         });
     }
 
-    private void onGooglePayResult(@NonNull Intent data) {
-        final PaymentData paymentData = PaymentData.getFromIntent(data);
-        if (paymentData == null) {
-            return;
-        }
 
-        try{
-            final PaymentMethodCreateParams paymentMethodCreateParams =
-            PaymentMethodCreateParams.createFromGooglePay(
-
-                    new JSONObject(paymentData.toJson()));
-                
-
-            stripeInstance.createPaymentMethod(
-                paymentMethodCreateParams,
-                new ApiResultCallback<PaymentMethod>() {
-                    @Override
-                    public void onSuccess(@NonNull PaymentMethod result) {
-                    }
-
-                    @Override
-                    public void onError(@NonNull Exception e) {
-                    }
-                }
-            );
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode,
-                                @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case LOAD_PAYMENT_DATA_REQUEST_CODE: {
-                switch (resultCode) {
-                    case Activity.RESULT_OK: {
-                        if (data != null) {
-                            onGooglePayResult(data);
-                        }
-                        break;
-                    }
-                    case Activity.RESULT_CANCELED: {
-                        // Canceled
-                        break;
-                    }
-                    case AutoResolveHelper.RESULT_ERROR: {
-                        // Log the status for debugging
-                        // Generally there is no need to show an error to
-                        // the user as the Google Payment API will do that
-                        final Status status =
-                            AutoResolveHelper.getStatusFromIntent(data);
-                        break;
-                    }
-                    default: {
-                        // Do nothing.
-                    }
-                }
-                break;
-            }
-            default: {
-                // Handle any other startActivityForResult calls you may have made.
-            }
-        }
-    }
-
-/*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) 
     {
@@ -356,9 +285,8 @@ public class CordovaStripe extends CordovaPlugin
             }
         }
     }
-*/
 
-/*
+
     private void onGooglePayResult(@NonNull Intent data) 
     {
         PaymentData paymentData = PaymentData.getFromIntent(data);
@@ -395,6 +323,4 @@ public class CordovaStripe extends CordovaPlugin
             //some exception handler code.
         }
     }
-
-*/
 }
