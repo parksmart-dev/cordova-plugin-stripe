@@ -167,7 +167,7 @@ public class CordovaStripe extends CordovaPlugin
                     + "\"parameters\": {"
                         + "\"allowedAuthMethods\": [\"PAN_ONLY\", \"CRYPTOGRAM_3DS\"],"
                         + "\"allowedCardNetworks\": [\"AMEX\", \"DISCOVER\", \"MASTERCARD\", \"VISA\"],"
-                        + "\"billingAddressRequired\": \"false\""
+                        + "\"billingAddressRequired\": \""false\""
                     + "},"
                     + "\"tokenizationSpecification\": {"
                         + "\"type\": \"" + WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY + "\","
@@ -185,7 +185,7 @@ public class CordovaStripe extends CordovaPlugin
             + "\"merchantInfo\": {"
                 + "\"merchantName\": \"Example Merchant\""
             + "},"
-            + "\"emailRequired\": \"false\""
+            + "\"emailRequired\": \""false\""
         + "}");
           
         /*
