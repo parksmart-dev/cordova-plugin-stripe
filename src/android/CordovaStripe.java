@@ -120,7 +120,7 @@ public class CordovaStripe extends CordovaPlugin
                             callbackContext.success();
                         } else {
                             //hide Google as payment option
-                            callbackContext.error("GooglePay not supported." + task);
+                            callbackContext.error("GooglePay not supported." + paymentsClient);
                         }
                     } catch (ApiException exception) {
                         callbackContext.error(exception.getLocalizedMessage());
