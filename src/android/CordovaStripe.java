@@ -170,7 +170,7 @@ public class CordovaStripe extends CordovaPlugin
                         + "\"billingAddressRequired\": " + false 
                     + "},"
                     + "\"tokenizationSpecification\": {"
-                        + "\"type\": \"" + WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY + "\","
+                        + "\"type\": " + WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY + ","
                         + "\"parameters\": {"
                             + "\"gateway\": \"stripe\""
                         + "}"
@@ -178,7 +178,7 @@ public class CordovaStripe extends CordovaPlugin
                 + "}"
             + "],"
             + "\"transactionInfo\": {"
-                + "\"totalPriceStatus\": \"" + WalletConstants.TOTAL_PRICE_STATUS_FINAL + "\","
+                + "\"totalPriceStatus\": " + WalletConstants.TOTAL_PRICE_STATUS_FINAL + ","
                 + "\"totalPrice\": \"" + totalPrice + "\","
                 + "\"currencyCode\": \"" + currencyCode + "\""
             + "},"
