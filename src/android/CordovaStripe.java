@@ -86,23 +86,12 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    @NonNull
-    private IsReadyToPayRequest createIsReadyToPayRequest() throws JSONException {
-        final JSONArray allowedAuthMethods = new JSONArray();
-        allowedAuthMethods.put("PAN_ONLY");
-        allowedAuthMethods.put("CRYPTOGRAM_3DS");
-
-        final JSONArray allowedCardNetworks = new JSONArray();
-        allowedCardNetworks.put("AMEX");
-        allowedCardNetworks.put("DISCOVER");
-        allowedCardNetworks.put("MASTERCARD");
-        allowedCardNetworks.put("VISA");
-
-        final JSONObject isReadyToPayRequestJson = new JSONObject();
-        isReadyToPayRequestJson.put("allowedAuthMethods", allowedAuthMethods);
-        isReadyToPayRequestJson.put("allowedCardNetworks", allowedCardNetworks);
-
-        return IsReadyToPayRequest.fromJson(isReadyToPayRequestJson.toString());
+    private IsReadyToPayRequest createIsReadyToPayRequest()
+    {
+        return IsReadyToPayRequest.fromJson("{"
+            + "\"allowedAuthMethods\": [\"PAN_ONLY\", \"CRYPTOGRAM_3DS\"],"
+            + "\"allowedCardNetworks\": [\"AMEX\", \"DISCOVER\", \"MASTERCARD\", \"VISA\"]"
+            + "}");
     }
 
 
@@ -131,7 +120,7 @@ public class CordovaStripe extends CordovaPlugin
                             callbackContext.success();
                         } else {
                             //hide Google as payment option
-                            callbackContext.error("GooglePay not supported." + paymentsClient);
+                            callbackContext.error("GooglePay not supported." + publishableKey);
                         }
                     } catch (ApiException exception) {
                         callbackContext.error(exception.getLocalizedMessage());
