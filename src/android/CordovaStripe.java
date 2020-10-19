@@ -57,6 +57,7 @@ public class CordovaStripe extends CordovaPlugin
     private PaymentMethodTokenizationParameters googlePayParams;
     private final int LOAD_PAYMENT_DATA_REQUEST_CODE = 53;
     private CallbackContext googlePayCallbackContext;
+    private final enum PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY = "1";
 
     
     public void initialize(CordovaInterface cordova, CordovaWebView webView) 
@@ -170,7 +171,7 @@ public class CordovaStripe extends CordovaPlugin
                         + "\"billingAddressRequired\": " + false 
                     + "},"
                     + "\"tokenizationSpecification\": {"
-                        + "\"type\": \"1\","
+                        + "\"type\": \"" + PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY + "\","
                         + "\"parameters\": {"
                             + "\"gateway\": \"stripe\""
                         + "}"
