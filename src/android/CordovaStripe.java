@@ -184,6 +184,7 @@ public class CordovaStripe extends CordovaPlugin
             + "},"
             + "\"emailRequired\": \"false\""
         + "}");
+        
           
         /*
         final JSONObject tokenizationSpec = new JSONObject()
