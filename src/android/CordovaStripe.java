@@ -171,7 +171,7 @@ public class CordovaStripe extends CordovaPlugin
                         + "\"billingAddressRequired\": " + false 
                     + "},"
                     + "\"tokenizationSpecification\": {"
-                        + "\"type\": " + PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY + ","
+                        + "\"type\": \"" + PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY + "\","
                         + "\"parameters\": {"
                             + "\"gateway\": \"stripe\""
                         + "}"
