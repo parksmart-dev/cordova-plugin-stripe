@@ -154,8 +154,12 @@ export declare namespace CordovaStripe {
     interface Error {
         message: string;
     }
+    interface PaymentResult {
+        id: string;
+    }
     type BlankCallback = () => void;
     type ErrorCallback = (error: Error) => void;
+    type PaymentSuccessCallback = (result: PaymentResult) => void;
     
     class Plugin {
         /**
@@ -173,6 +177,6 @@ export declare namespace CordovaStripe {
          */
         static payWithApplePay(options: ApplePayOptions, success: (token: TokenResponse, callback: (paymentProcessed: boolean) => void) => void, error?: ErrorCallback): void;
         static initGooglePay(options: GooglePayInit, success?: any, error?: ErrorCallback): void;
-        static payWithGoogle(options: GooglePayOptions, success: (result: string) => void, error?: ErrorCallback): void;
+        static payWithGoogle(options: GooglePayOptions, success?: PaymentSuccessCallback, error?: ErrorCallback): void;
     }
 }
