@@ -42,6 +42,7 @@ export namespace CordovaStripe {
   export interface GooglePayOptions {
     amount: string;
     currencyCode: string;
+    stripeKey: string;
   }
 
   export interface ThreeDeeSecureParams {
