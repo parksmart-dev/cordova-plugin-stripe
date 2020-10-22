@@ -76,7 +76,7 @@ public class CordovaStripe extends CordovaPlugin
                 break;
 
             case "payWithGooglePay":
-                payWithGooglePay(data.getString(0), data.getString(1), callbackContext);
+                payWithGooglePay(data.getString(0), data.getString(1), data.getString(2), callbackContext);
                 break;
 
             default:
@@ -157,7 +157,7 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode) 
+    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode, String stripeKey) 
     {
         return PaymentDataRequest.fromJson("{"
             + "\"apiVersion\": 2,"
@@ -173,7 +173,9 @@ public class CordovaStripe extends CordovaPlugin
                     + "\"tokenizationSpecification\": {"
                         + "\"type\": \"PAYMENT_GATEWAY\","
                         + "\"parameters\": {"
-                            + "\"gateway\": \"stripe\""
+                            + "\"gateway\": \"stripe\","
+                            + "\"stripe:version\": \"2018-10-31\","
+                            + "\"stripe:publishableKey\": \"" + stripeKey + "\""
                         + "}"
                     + "}"
                 + "}"
@@ -249,11 +251,11 @@ public class CordovaStripe extends CordovaPlugin
 
 
     
-    private void payWithGooglePay(String totalPrice, String currencyCode, final CallbackContext callbackContext) 
+    private void payWithGooglePay( String totalPrice, String currencyCode, String stripeKey, final CallbackContext callbackContext) 
     {
         cordova.getActivity().runOnUiThread(() -> {
             AutoResolveHelper.resolveTask(
-                    paymentsClient.loadPaymentData(createPaymentDataRequest(totalPrice, currencyCode)),
+                    paymentsClient.loadPaymentData(createPaymentDataRequest(totalPrice, currencyCode, stripeKey)),
                     cordova.getActivity(),
                     LOAD_PAYMENT_DATA_REQUEST_CODE
             );
