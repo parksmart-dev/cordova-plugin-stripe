@@ -179,7 +179,7 @@ public class CordovaStripe extends CordovaPlugin
                 + "}"
             + "],"
             + "\"transactionInfo\": {"
-                + "\"totalPriceStatus\": \"" + WalletConstants.TOTAL_PRICE_STATUS_FINAL + "\","
+                + "\"totalPriceStatus\": \"FINAL\","
                 + "\"totalPrice\": \"" + totalPrice + "\","
                 + "\"currencyCode\": \"" + currencyCode + "\""
             + "},"
