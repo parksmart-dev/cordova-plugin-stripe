@@ -312,9 +312,9 @@ public class CordovaStripe extends CordovaPlugin
 
             stripeInstance.createPaymentMethod(
                 paymentMethodCreateParams,
-                new ApiResultCallback<PaymentResult>() {
+                new ApiResultCallback<PaymentMethod>() {
                     @Override
-                    public void onSuccess(@NonNull PaymentResult result) 
+                    public void onSuccess(@NonNull PaymentMethod result) 
                     {
                         googlePayCallbackContext.success(result);
                     }
