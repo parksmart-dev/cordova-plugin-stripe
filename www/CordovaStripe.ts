@@ -229,7 +229,7 @@ export namespace CordovaStripe {
     }
 
     static payWithGooglePay(options: GooglePayOptions, success: (result: string) => void, error: ErrorCallback = NOOP) {
-      exec(success, error, 'CordovaStripe', 'payWithGooglePay', [options.amount, options.currencyCode]);
+      exec(success, error, 'CordovaStripe', 'payWithGooglePay', [options.amount, options.currencyCode, options.stripeKey]);
     }
   }
 }
