@@ -2,6 +2,7 @@ package com.zyramedia.cordova.stripe;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import android.support.annotation.NonNull;
@@ -317,6 +318,7 @@ public class CordovaStripe extends CordovaPlugin
                     @Override
                     public void onSuccess(@NonNull PaymentMethod result) 
                     {
+                        Log.d("Google Pay token: ", result);
                         googlePayCallbackContext.success(result.toString());
                     }
 
