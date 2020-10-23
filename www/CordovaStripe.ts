@@ -180,8 +180,13 @@ export namespace CordovaStripe {
     message: string;
   }
 
+  export interface PaymentResult {
+    id: string;
+}
+
   export type BlankCallback = () => void;
   export type ErrorCallback = (error: Error) => void;
+  export type PaymentSuccessCallback = (result: PaymentResult) => void;
 
   export class Plugin {
     /**
@@ -229,8 +234,8 @@ export namespace CordovaStripe {
       exec(success, error, 'CordovaStripe', 'initGooglePay', [options.publishableKey]);
     }
 
-    static payWithGooglePay(options: GooglePayOptions, success = NOOP, error: ErrorCallback = NOOP) {
-      exec(success, error, 'CordovaStripe', 'payWithGooglePay', [options.amount, options.currencyCode, options.stripeKey]);
+    static payWithGooglePay(options: GooglePayOptions, success: PaymentSuccessCallback = NOOP, error: ErrorCallback = NOOP) {
+            exec(success, error, 'CordovaStripe', 'payWithGooglePay', [options.amount, options.currencyCode, options.stripeKey]);
     }
   }
 }
