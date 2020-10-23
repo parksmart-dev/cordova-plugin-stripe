@@ -230,6 +230,10 @@ public class CordovaStripe extends CordovaPlugin
     
     private void payWithGooglePay( String totalPrice, String currencyCode, String stripeKey, final CallbackContext callbackContext) 
     {
+
+        Log.d("payWithGooglePay: ", "RESULT_OK");
+        Log.d("payWithGooglePay: ", "RESULT_OK");
+
         googlePayCallbackContext = callbackContext;
 
         cordova.getActivity().runOnUiThread(() -> {
@@ -254,8 +258,8 @@ public class CordovaStripe extends CordovaPlugin
 
                     if (intent != null) 
                     {
-                        Log.v("Google Pay token: ", "SUCCESS");
-                        Log.d("Google Pay token: ", "SUCCESS");
+                        Log.d("onActivityResult: ", "RESULT_OK");
+                        Log.d("onActivityResult: ", "RESULT_OK");
                         onGooglePayResult(intent);
                     }
                     
@@ -276,6 +280,8 @@ public class CordovaStripe extends CordovaPlugin
     private void onGooglePayResult(@NonNull Intent data) 
     {
         PaymentData paymentData = PaymentData.getFromIntent(data);
+        Log.d("onGooglePayResult: ", "WHATEVER");
+        Log.d("onGooglePayResult: ", "WHATEVER");
 
         if (paymentData == null) 
         {
