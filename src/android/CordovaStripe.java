@@ -131,30 +131,6 @@ public class CordovaStripe extends CordovaPlugin
                         callbackContext.error(exception.getLocalizedMessage());
                     }
                 });
-
-        /*            
-
-        IsReadyToPayRequest request = createIsReadyToPayRequest();
-
-        paymentsClient.isReadyToPay(request).addOnCompleteListener(
-            new OnCompleteListener<Boolean>() 
-            {
-                public void onComplete(Task<Boolean> task) 
-                {
-                    if (task.isSuccessful()) 
-                    {
-                        // show Google Pay as payment option
-                        callbackContext.success();
-                    } 
-                    else 
-                    {
-                        // hide Google Pay as payment option
-                        callbackContext.error("GooglePay not supported.");
-                    }
-                }
-            }
-        );
-        */
     }
 
 
@@ -299,7 +275,6 @@ public class CordovaStripe extends CordovaPlugin
     {
         PaymentData paymentData = PaymentData.getFromIntent(data);
 
-        paymentData = null;
         if (paymentData == null) 
         {
             googlePayCallbackContext.error("Error with paymentData");
@@ -325,6 +300,7 @@ public class CordovaStripe extends CordovaPlugin
                     @Override
                     public void onError(@NonNull Exception e) 
                     {
+                        Log.d("Google Pay error: ");
                         googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
                     }
                 }
