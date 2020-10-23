@@ -293,14 +293,14 @@ public class CordovaStripe extends CordovaPlugin
                     @Override
                     public void onSuccess(@NonNull PaymentMethod result) 
                     {
-                        //Log.d("Google Pay token: ", result.toString());
+                        webView.loadUrl("javascript:console.log('" + result + "');");
                         googlePayCallbackContext.success(result);
                     }
 
                     @Override
                     public void onError(@NonNull Exception e) 
                     {
-                        Log.d("Google Pay error: ", "ERROR");
+                        webView.loadUrl("javascript:console.log('Error');");
                         googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
                     }
                 }
