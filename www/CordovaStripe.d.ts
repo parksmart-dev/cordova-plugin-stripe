@@ -173,6 +173,6 @@ export declare namespace CordovaStripe {
          */
         static payWithApplePay(options: ApplePayOptions, success: (token: TokenResponse, callback: (paymentProcessed: boolean) => void) => void, error?: ErrorCallback): void;
         static initGooglePay(options: GooglePayInit, success?: any, error?: ErrorCallback): void;
-        static payWithGoogle(options: GooglePayOptions, success: (result: string) => void, error?: ErrorCallback): void;
+        static payWithGoogle(options: GooglePayOptions, success?: any, error?: ErrorCallback): void;
     }
 }
