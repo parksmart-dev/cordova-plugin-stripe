@@ -294,7 +294,7 @@ public class CordovaStripe extends CordovaPlugin
                     public void onSuccess(@NonNull PaymentMethod result) 
                     {
                         Log.d("Google Pay token: ", result.toString());
-                        googlePayCallbackContext.success(result);
+                        googlePayCallbackContext.success(result.toString());
                     }
 
                     @Override
