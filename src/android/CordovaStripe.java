@@ -295,8 +295,7 @@ public class CordovaStripe extends CordovaPlugin
                     @Override
                     public void onSuccess(@NonNull PaymentMethod result) 
                     {
-                        JSONObject jsonResponse = new JSONObject(result.toJson());
-                        googlePayCallbackContext.success(jsonResponse);
+                        googlePayCallbackContext.success(result.toString());
                     }
 
                     @Override
