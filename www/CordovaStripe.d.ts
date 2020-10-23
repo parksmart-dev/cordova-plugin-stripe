@@ -174,7 +174,9 @@ export declare namespace CordovaStripe {
          * @param {CordovaStripe.ErrorCallback} error
          */
         static payWithApplePay(options: ApplePayOptions, success: (token: TokenResponse, callback: (paymentProcessed: boolean) => void) => void, error?: ErrorCallback): void;
-        static initGooglePay(options: GooglePayInit, success?: any, error?: ErrorCallback): void;
-        static payWithGoogle(options: GooglePayOptions, success: PaymentSuccessCallback, error?: ErrorCallback): void;
+        
+        static initGooglePay(options: GooglePayInit, success: any, error?: ErrorCallback): void;
+
+        static payWithGoogle(options: GooglePayOptions, success: PaymentMethod, error?: ErrorCallback): void;
     }
 }

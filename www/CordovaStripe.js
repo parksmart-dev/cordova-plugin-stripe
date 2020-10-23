@@ -69,7 +69,6 @@ var CordovaStripe;
         Plugin.payWithGooglePay = function (options, success, error) 
         {
             if (error === void 0) { error = NOOP; }
-            if (success === void 0) { success = NOOP; }
             cordova_1.exec(success, error, 'CordovaStripe', 'payWithGooglePay', [options.amount, options.currencyCode, options.stripeKey]);
         };
         
