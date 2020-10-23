@@ -236,7 +236,7 @@ export namespace CordovaStripe {
       exec(success, error, 'CordovaStripe', 'initGooglePay', [options.publishableKey]);
     }
 
-    static payWithGooglePay(options: GooglePayOptions, success: PaymentSuccessCallback = NOOP, error: ErrorCallback = NOOP) 
+    static payWithGooglePay(options: GooglePayOptions, success: any = NOOP, error: ErrorCallback = NOOP) 
     {
       exec(success, error, 'CordovaStripe', 'payWithGooglePay', [options.amount, options.currencyCode, options.stripeKey]);
     }
