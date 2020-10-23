@@ -155,12 +155,9 @@ export declare namespace CordovaStripe {
         message: string;
     }
 
-    interface PaymentResult {
-        id: string;
-    }
     type BlankCallback = () => void;
     type ErrorCallback = (error: Error) => void;
-    type PaymentSuccessCallback = (result: PaymentResult) => void;
+    type PaymentSuccessCallback = (result: PaymentMethod) => void;
     
     class Plugin {
         /**

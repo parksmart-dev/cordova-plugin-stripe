@@ -65,10 +65,14 @@ var CordovaStripe;
             if (error === void 0) { error = NOOP; }
             cordova_1.exec(success, error, 'CordovaStripe', 'initGooglePay', [options.publishableKey]);
         };
-        Plugin.payWithGooglePay = function (options, success, error) {
+        
+        Plugin.payWithGooglePay = function (options, success, error) 
+        {
             if (error === void 0) { error = NOOP; }
+            if (success === void 0) { success = NOOP; }
             cordova_1.exec(success, error, 'CordovaStripe', 'payWithGooglePay', [options.amount, options.currencyCode, options.stripeKey]);
         };
+        
         return Plugin;
     }());
     CordovaStripe.Plugin = Plugin;
