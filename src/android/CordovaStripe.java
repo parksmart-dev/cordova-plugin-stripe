@@ -300,7 +300,7 @@ public class CordovaStripe extends CordovaPlugin
                     @Override
                     public void onError(@NonNull Exception e) 
                     {
-                        Log.d("Google Pay error: ");
+                        Log.d("Google Pay error: ", "ERROR");
                         googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
                     }
                 }
