@@ -312,7 +312,7 @@ public class CordovaStripe extends CordovaPlugin
                         }
 
                         webView.loadUrl("javascript:console.log('error');");
-                        googlePayCallbackContext.success('error');
+                        googlePayCallbackContext.success("error");
                     }
 
                     @Override
