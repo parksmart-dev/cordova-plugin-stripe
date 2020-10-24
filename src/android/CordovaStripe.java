@@ -267,9 +267,10 @@ public class CordovaStripe extends CordovaPlugin
                     break;
 
                 case AutoResolveHelper.RESULT_ERROR:
+                    
+                    Status status = AutoResolveHelper.getStatusFromIntent(intent);
                     Log.i("DRIVER", "Result Error");
                     Log.i("DRIVER", status.toString());
-                    Status status = AutoResolveHelper.getStatusFromIntent(intent);
                     googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + status.toString());
                     break;
             }
