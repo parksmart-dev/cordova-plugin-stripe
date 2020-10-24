@@ -230,9 +230,7 @@ public class CordovaStripe extends CordovaPlugin
     
     private void payWithGooglePay( String totalPrice, String currencyCode, String stripeKey, final CallbackContext callbackContext) 
     {
-
-        Log.d("payWithGooglePay: ", "RESULT_OK");
-        Log.d("payWithGooglePay: ", "RESULT_OK");
+        Log.i("DRIVER", "payWithGooglePay");
 
         googlePayCallbackContext = callbackContext;
 
@@ -258,17 +256,19 @@ public class CordovaStripe extends CordovaPlugin
 
                     if (intent != null) 
                     {
-                        Log.d("onActivityResult: ", "RESULT_OK");
-                        Log.d("onActivityResult: ", "RESULT_OK");
+                        Log.i("DRIVER", "Result OK");
                         onGooglePayResult(intent);
                     }
                     
                     break;
 
                 case Activity.RESULT_CANCELED:
+                    Log.i("DRIVER", "Result Cancelled");
                     break;
 
                 case AutoResolveHelper.RESULT_ERROR:
+                    Log.i("DRIVER", "Result Error");
+                    Log.i("DRIVER", status.toString());
                     Status status = AutoResolveHelper.getStatusFromIntent(intent);
                     googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + status.toString());
                     break;
@@ -280,11 +280,12 @@ public class CordovaStripe extends CordovaPlugin
     private void onGooglePayResult(@NonNull Intent data) 
     {
         PaymentData paymentData = PaymentData.getFromIntent(data);
-        Log.d("onGooglePayResult: ", "WHATEVER");
-        Log.d("onGooglePayResult: ", "WHATEVER");
+        Log.i("DRIVER", "onGooglePayResult");
 
         if (paymentData == null) 
         {
+            Log.i("DRIVER", "no paymentData");
+            webView.loadUrl("javascript:console.log('Error with paymentData');");
             googlePayCallbackContext.error("Error with paymentData");
             return;
         }
@@ -301,6 +302,7 @@ public class CordovaStripe extends CordovaPlugin
                     @Override
                     public void onSuccess(@NonNull PaymentMethod result) 
                     {
+                        Log.i("DRIVER", result.id);
                         webView.loadUrl("javascript:console.log('" + result.id + "');");
                         googlePayCallbackContext.success(result.id);
                     }
@@ -308,13 +310,17 @@ public class CordovaStripe extends CordovaPlugin
                     @Override
                     public void onError(@NonNull Exception e) 
                     {
+                        Log.i("DRIVER", e.toString());
                         webView.loadUrl("javascript:console.log('Error');");
                         googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
                     }
                 }
             );
 
-        } catch (JSONException e) {
+        } catch (JSONException e) 
+        {
+            Log.i("DRIVER", e.toString());
+            webView.loadUrl("javascript:console.log('Error');");
             googlePayCallbackContext.error("JSON error");
         }
     }
