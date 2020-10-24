@@ -301,18 +301,8 @@ public class CordovaStripe extends CordovaPlugin
                     @Override
                     public void onSuccess(@NonNull PaymentMethod result) 
                     {
-                        if (result)
-                        {
-                            if (result.id)
-                            {
-                                webView.loadUrl("javascript:console.log('" + result.id + "');");
-                                googlePayCallbackContext.success(result.id);
-                                return;
-                            }
-                        }
-
-                        webView.loadUrl("javascript:console.log('error');");
-                        googlePayCallbackContext.success("error");
+                        webView.loadUrl("javascript:console.log('" + result.id + "');");
+                        googlePayCallbackContext.success(result.id);
                     }
 
                     @Override
