@@ -101,7 +101,7 @@ public class CordovaStripe extends CordovaPlugin
     {
         publishableKey = key;
 
-        stripeInstance = new Stripe(webView.getContext(), publishableKey);
+        stripeInstance = new Stripe(webView.getContext(), publishableKey, stripeAccount);
         stripeConnectAccount = stripeAccount;
 
         paymentsClient = Wallet.getPaymentsClient(
