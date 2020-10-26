@@ -57,8 +57,7 @@ public class CordovaStripe extends CordovaPlugin
     private boolean googlePayReady;
     private PaymentMethodTokenizationParameters googlePayParams;
     private final int LOAD_PAYMENT_DATA_REQUEST_CODE = 53;
-    private CallbackContext googlePayCallbackContext;
-    public static final int PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY = '1';
+    CallbackContext googlePayCallbackContext;
 
     
     public void initialize(CordovaInterface cordova, CordovaWebView webView) 
@@ -234,12 +233,20 @@ public class CordovaStripe extends CordovaPlugin
 
         googlePayCallbackContext = callbackContext;
 
+        PaymentDataRequest request = this.createPaymentDataRequest(totalPrice, currencyCode, stripeKey);
+
+        Log.i("DRIVER", "payWithGooglePay2");
+
+        Activity activity = this.cordova.getActivity();
+
+        if (request != null) {
             Log.i("DRIVER", "payWithGooglePay3");
+            cordova.setActivityResultCallback(this);
             AutoResolveHelper.resolveTask(
-                    paymentsClient.loadPaymentData(createPaymentDataRequest(totalPrice, currencyCode, stripeKey)),
-                    cordova.getActivity(),
-                    LOAD_PAYMENT_DATA_REQUEST_CODE
-            );
+                    paymentsClient.loadPaymentData(request),
+                    activity,
+                    LOAD_PAYMENT_DATA_REQUEST_CODE);
+        }
            
 
     }
