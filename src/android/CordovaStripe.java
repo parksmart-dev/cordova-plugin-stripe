@@ -234,14 +234,15 @@ public class CordovaStripe extends CordovaPlugin
 
         googlePayCallbackContext = callbackContext;
 
-       
+        cordova.getActivity().runOnUiThread(() -> {
+            Log.i("DRIVER", "payWithGooglePay2");
             AutoResolveHelper.resolveTask(
                     paymentsClient.loadPaymentData(createPaymentDataRequest(totalPrice, currencyCode, stripeKey)),
                     cordova.getActivity(),
                     LOAD_PAYMENT_DATA_REQUEST_CODE
             );
            
-        
+        });
     }
 
 
