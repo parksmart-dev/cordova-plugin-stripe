@@ -104,7 +104,7 @@ public class CordovaStripe extends CordovaPlugin
         stripeInstance = new Stripe(webView.getContext(), publishableKey);
 
         paymentsClient = Wallet.getPaymentsClient(
-                cordova.getContext(),
+                this,
                 new Wallet.WalletOptions.Builder()
                     .setEnvironment(publishableKey == null || publishableKey.contains("test") ? WalletConstants.ENVIRONMENT_TEST : WalletConstants.ENVIRONMENT_PRODUCTION)
                     .build());
@@ -237,7 +237,7 @@ public class CordovaStripe extends CordovaPlugin
         cordova.getActivity().runOnUiThread(() -> {
             AutoResolveHelper.resolveTask(
                     paymentsClient.loadPaymentData(createPaymentDataRequest(totalPrice, currencyCode, stripeKey)),
-                    cordova.getActivity(),
+                    this,
                     LOAD_PAYMENT_DATA_REQUEST_CODE
             );
            
