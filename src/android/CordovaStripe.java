@@ -76,7 +76,7 @@ public class CordovaStripe extends CordovaPlugin
                 break;
 
             case "payWithGooglePay":
-                payWithGooglePay(data.getString(0), data.getString(1), data.getString(2), callbackContext);
+                payWithGooglePay(data.getString(0), data.getString(1), data.getString(2), data.getString(3), callbackContext);
                 break;
 
             default:
@@ -133,7 +133,7 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode, String stripeKey) 
+    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode, String stripeKey, String stripeAccount) 
     {
         return PaymentDataRequest.fromJson("{"
             + "\"apiVersion\": 2,"
@@ -152,7 +152,7 @@ public class CordovaStripe extends CordovaPlugin
                             + "\"gateway\": \"stripe\","
                             + "\"stripe:version\": \"2018-10-31\","
                             + "\"stripe:publishableKey\": \"" + stripeKey + "\","
-                            + "\"stripe:connectedAccountId\": \"" + stripeKey + "\""
+                            + "\"stripe:connectedAccountId\": \"" + stripeAccount + "\""
                         + "}"
                     + "}"
                 + "}"
@@ -228,13 +228,13 @@ public class CordovaStripe extends CordovaPlugin
 
 
     
-    private void payWithGooglePay( String totalPrice, String currencyCode, String stripeKey, final CallbackContext callbackContext) 
+    private void payWithGooglePay( String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) 
     {
         Log.i("DRIVER", "payWithGooglePay");
 
         googlePayCallbackContext = callbackContext;
 
-        PaymentDataRequest request = this.createPaymentDataRequest(totalPrice, currencyCode, stripeKey);
+        PaymentDataRequest request = this.createPaymentDataRequest(totalPrice, currencyCode, stripeKey, stripeAccount);
 
         Activity activity = this.cordova.getActivity();
 
