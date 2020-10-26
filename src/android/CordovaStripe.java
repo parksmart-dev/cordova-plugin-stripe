@@ -52,6 +52,7 @@ import java.util.Set;
 public class CordovaStripe extends CordovaPlugin 
 {
     private Stripe stripeInstance;
+    private stripeConnectAccount = "";
     private String publishableKey;
     private PaymentsClient paymentsClient;
     private boolean googlePayReady;
@@ -101,6 +102,7 @@ public class CordovaStripe extends CordovaPlugin
         publishableKey = key;
 
         stripeInstance = new Stripe(webView.getContext(), publishableKey);
+        stripeConnectAccount = stripeAccount;
 
         paymentsClient = Wallet.getPaymentsClient(
                 cordova.getContext(),
@@ -305,6 +307,8 @@ public class CordovaStripe extends CordovaPlugin
 
             stripeInstance.createPaymentMethod(
                 paymentMethodCreateParams,
+                null,
+                stripeConnectAccount,
                 new ApiResultCallback<PaymentMethod>() {
                     @Override
                     public void onSuccess(@NonNull PaymentMethod result) 
