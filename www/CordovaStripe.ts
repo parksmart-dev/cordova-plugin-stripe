@@ -37,6 +37,7 @@ export namespace CordovaStripe {
 
   export interface GooglePayInit {
     publishableKey: string;
+    stripeAccount: string;
   }
 
   export interface GooglePayOptions {
@@ -233,7 +234,7 @@ export namespace CordovaStripe {
     }
 
     static initGooglePay(options: GooglePayInit, success = NOOP, error: ErrorCallback = NOOP) {
-      exec(success, error, 'CordovaStripe', 'initGooglePay', [options.publishableKey]);
+      exec(success, error, 'CordovaStripe', 'initGooglePay', [options.publishableKey, options.stripeAccount]);
     }
 
     static payWithGooglePay(options: GooglePayOptions, success: PaymentSuccessCallback, error: ErrorCallback = NOOP) 

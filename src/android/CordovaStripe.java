@@ -72,7 +72,7 @@ public class CordovaStripe extends CordovaPlugin
         switch (action) 
         {
             case "initGooglePay":
-                initGooglePay(data.getString(0), callbackContext);
+                initGooglePay(data.getString(0), data.getString(1), callbackContext);
                 break;
 
             case "payWithGooglePay":
@@ -96,11 +96,11 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private void initGooglePay(String key, final CallbackContext callbackContext) 
+    private void initGooglePay(String key, String stripeAccount, final CallbackContext callbackContext) 
     {
         publishableKey = key;
 
-        stripeInstance = new Stripe(webView.getContext(), publishableKey);
+        stripeInstance = new Stripe(webView.getContext(), publishableKey, { stripeAccount: stripeAccount});
 
         paymentsClient = Wallet.getPaymentsClient(
                 cordova.getContext(),
