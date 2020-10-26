@@ -52,7 +52,7 @@ import java.util.Set;
 public class CordovaStripe extends CordovaPlugin 
 {
     private Stripe stripeInstance;
-    private stripeConnectAccount = "";
+    private String stripeConnectAccount = "";
     private String publishableKey;
     private PaymentsClient paymentsClient;
     private boolean googlePayReady;
