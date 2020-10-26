@@ -104,7 +104,7 @@ public class CordovaStripe extends CordovaPlugin
         stripeInstance = new Stripe(webView.getContext(), publishableKey);
 
         paymentsClient = Wallet.getPaymentsClient(
-                this,
+                cordova.getContext(),
                 new Wallet.WalletOptions.Builder()
                     .setEnvironment(publishableKey == null || publishableKey.contains("test") ? WalletConstants.ENVIRONMENT_TEST : WalletConstants.ENVIRONMENT_PRODUCTION)
                     .build());
@@ -237,7 +237,7 @@ public class CordovaStripe extends CordovaPlugin
         cordova.getActivity().runOnUiThread(() -> {
             AutoResolveHelper.resolveTask(
                     paymentsClient.loadPaymentData(createPaymentDataRequest(totalPrice, currencyCode, stripeKey)),
-                    this,
+                    cordova.getActivity(),
                     LOAD_PAYMENT_DATA_REQUEST_CODE
             );
            
@@ -248,6 +248,8 @@ public class CordovaStripe extends CordovaPlugin
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) 
     {
+        Log.i("DRIVER", "onActivityResult");
+
         if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) 
         {
             switch (resultCode) 
@@ -280,9 +282,9 @@ public class CordovaStripe extends CordovaPlugin
 
     private void onGooglePayResult(@NonNull Intent data) 
     {
-        PaymentData paymentData = PaymentData.getFromIntent(data);
         Log.i("DRIVER", "onGooglePayResult");
-
+        PaymentData paymentData = PaymentData.getFromIntent(data);
+        
         if (paymentData == null) 
         {
             Log.i("DRIVER", "no paymentData");
