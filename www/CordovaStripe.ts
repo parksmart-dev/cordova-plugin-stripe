@@ -44,6 +44,7 @@ export namespace CordovaStripe {
     amount: string;
     currencyCode: string;
     stripeKey: string;
+    stripeAccount: string;
   }
 
   export interface ThreeDeeSecureParams {
@@ -239,7 +240,7 @@ export namespace CordovaStripe {
 
     static payWithGooglePay(options: GooglePayOptions, success: PaymentSuccessCallback, error: ErrorCallback = NOOP) 
     {
-      exec(success, error, 'CordovaStripe', 'payWithGooglePay', [options.amount, options.currencyCode, options.stripeKey]);
+      exec(success, error, 'CordovaStripe', 'payWithGooglePay', [options.amount, options.currencyCode, options.stripeKey, options.stripeAccount]);
     }
   }
 }

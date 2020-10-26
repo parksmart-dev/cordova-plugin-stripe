@@ -151,7 +151,8 @@ public class CordovaStripe extends CordovaPlugin
                         + "\"parameters\": {"
                             + "\"gateway\": \"stripe\","
                             + "\"stripe:version\": \"2018-10-31\","
-                            + "\"stripe:publishableKey\": \"" + stripeKey + "\""
+                            + "\"stripe:publishableKey\": \"" + stripeKey + "\","
+                            + "\"stripe:connectedAccountId\": \"" + stripeKey + "\""
                         + "}"
                     + "}"
                 + "}"
@@ -235,12 +236,9 @@ public class CordovaStripe extends CordovaPlugin
 
         PaymentDataRequest request = this.createPaymentDataRequest(totalPrice, currencyCode, stripeKey);
 
-        Log.i("DRIVER", "payWithGooglePay2");
-
         Activity activity = this.cordova.getActivity();
 
         if (request != null) {
-            Log.i("DRIVER", "payWithGooglePay3");
             cordova.setActivityResultCallback(this);
             AutoResolveHelper.resolveTask(
                     paymentsClient.loadPaymentData(request),
