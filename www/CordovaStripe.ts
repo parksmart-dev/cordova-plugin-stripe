@@ -16,23 +16,17 @@ export interface CordovaPlugins {
 
 export namespace CordovaStripe {
   
-
-  export interface TokenResponse {
-    id: string;
-    type: string;
-    created: Date;
-  }
-
-  export interface ApplePayItem {
-    label: string;
-    amount: number | string;
-  }
-
   export interface ApplePayOptions {
     merchantId: string;
-    country: string;
-    currency: string;
-    items: ApplePayItem[];
+    amount: string;
+    currencyCode: string;
+    stripeKey: string;
+    stripeAccount: string;
+  }
+
+  export interface ApplePayInit {
+    publishableKey: string;
+    stripeAccount: string;
   }
 
   export interface GooglePayInit {
@@ -136,105 +130,36 @@ export namespace CordovaStripe {
 
   const SourceTypeArray: SourceType[] = Object.keys(SourceType).map(key => SourceType[key]);
 
-  export interface Address {
-    line1: string;
-    line2: string;
-    city: string;
-    postal_code: string;
-    state: string;
-    country: string;
-  }
-
-  export interface LegalEntity {
-    address?: Address;
-    dob?: {
-      day: number;
-      month: number;
-      year: number;
-    },
-    first_name?: string;
-    last_name?: string;
-    gender?: 'male' | 'female';
-    personal_address?: Address;
-    business_name?: string;
-    business_url?: string;
-    business_tax_id_provided?: boolean;
-    business_vat_id_provided?: string;
-    country?: string;
-    tos_acceptance?: {
-      date: number;
-      ip: string;
-    },
-    personal_id_number_provided?: boolean;
-    phone_number?: string;
-    ssn_last_4_provided?: boolean;
-    tax_id_registrar?: string;
-    type?: 'individual' | 'company';
-    verification?: any;
-  }
-
-  export interface AccountParams {
-    tosShownAndAccepted: boolean;
-    legalEntity: LegalEntity;
-  }
-
   export interface Error {
     message: string;
   }
-
-  export interface PaymentMethod {
-    id: string;
-    type: string;
-    created: Date;
-}
 
   export type BlankCallback = () => void;
   export type ErrorCallback = (error: Error) => void;
   export type PaymentSuccessCallback = (result: string) => void;
 
-  export class Plugin {
-    /**
-     * Set publishable key
-     * @param {string} key
-     * @param {Function} success
-     * @param {Function} error
-     */
-    static setPublishableKey(key: string, success: BlankCallback = NOOP, error: ErrorCallback = NOOP) {
-      exec(success, error, 'CordovaStripe', 'setPublishableKey', [key]);
+  export class Plugin 
+  {  
+    static initApplePay(options: ApplePayInit, success = NOOP, error: ErrorCallback = NOOP) 
+    {
+      exec(success, error, 'CordovaStripe', 'initApplePay', [options.publishableKey, options.stripeAccount]);
     }
 
-    /**
-     * Pay with ApplePay
-     * @param {CordovaStripe.ApplePayOptions} options
-     * @param {(token: string, callback: (paymentProcessed: boolean) => void) => void} success
-     * @param {Function} error
-     */
-    static payWithApplePay(options: ApplePayOptions, success: (token: TokenResponse, callback: (paymentProcessed: boolean) => void) => void, error: ErrorCallback = NOOP) {
-      if (!options || !options.merchantId || !options.country || !options.currency || !options.items || !options.items.length) {
+    static payWithApplePay(options: ApplePayOptions, success: PaymentSuccessCallback, error: ErrorCallback = NOOP) 
+    {
+      if (!options || !options.merchantId) 
+      {
         error({
           message: 'Missing one or more payment options.'
         });
         return;
       }
 
-      options.items = options.items.map(item => {
-        item.amount = String(item.amount);
-        return item;
-      });
-
-      exec((token: TokenResponse) => {
-        success(token, (paymentProcessed: boolean) => {
-          exec(NOOP, NOOP, 'CordovaStripe', 'finalizeApplePayTransaction', [Boolean(paymentProcessed)]);
-        });
-      }, error, 'CordovaStripe', 'initializeApplePayTransaction', [
-        options.merchantId,
-        options.country,
-        options.currency,
-        options.items
-      ])
+      exec(success, error, 'CordovaStripe', 'payWithApplePay', [options.merchantId, options.amount, options.currencyCode, options.stripeKey, options.stripeAccount]);
     }
 
-    static initGooglePay(options: GooglePayInit, success = NOOP, error: ErrorCallback = NOOP) {
+    static initGooglePay(options: GooglePayInit, success = NOOP, error: ErrorCallback = NOOP) 
+    {
       exec(success, error, 'CordovaStripe', 'initGooglePay', [options.publishableKey, options.stripeAccount]);
     }
 

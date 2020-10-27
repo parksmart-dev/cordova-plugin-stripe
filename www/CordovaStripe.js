@@ -20,46 +20,20 @@ var CordovaStripe;
     var Plugin = /** @class */ (function () {
         function Plugin() {
         }
-        /**
-         * Set publishable key
-         * @param {string} key
-         * @param {Function} success
-         * @param {Function} error
-         */
-        Plugin.setPublishableKey = function (key, success, error) {
+
+        Plugin.initApplePay = function (options, success, error) 
+        {
             if (success === void 0) { success = NOOP; }
             if (error === void 0) { error = NOOP; }
-            cordova_1.exec(success, error, 'CordovaStripe', 'setPublishableKey', [key]);
+            cordova_1.exec(success, error, 'CordovaStripe', 'initApplePay', [options.publishableKey, options.stripeAccount]);
         };
-        /**
-         * Pay with ApplePay
-         * @param {CordovaStripe.ApplePayOptions} options
-         * @param {(token: string, callback: (paymentProcessed: boolean) => void) => void} success
-         * @param {Function} error
-         */
-        Plugin.payWithApplePay = function (options, success, error) {
+        
+        Plugin.payWithApplePay = function (options, success, error) 
+        {
             if (error === void 0) { error = NOOP; }
-            if (!options || !options.merchantId || !options.country || !options.currency || !options.items || !options.items.length) {
-                error({
-                    message: 'Missing one or more payment options.'
-                });
-                return;
-            }
-            options.items = options.items.map(function (item) {
-                item.amount = String(item.amount);
-                return item;
-            });
-            cordova_1.exec(function (token) {
-                success(token, function (paymentProcessed) {
-                    cordova_1.exec(NOOP, NOOP, 'CordovaStripe', 'finalizeApplePayTransaction', [Boolean(paymentProcessed)]);
-                });
-            }, error, 'CordovaStripe', 'initializeApplePayTransaction', [
-                options.merchantId,
-                options.country,
-                options.currency,
-                options.items
-            ]);
+            cordova_1.exec(success, error, 'CordovaStripe', 'payWithApplePay', [options.merchantId, options.amount, options.currencyCode, options.stripeKey, options.stripeAccount]);
         };
+
         Plugin.initGooglePay = function (options, success, error) {
             if (success === void 0) { success = NOOP; }
             if (error === void 0) { error = NOOP; }
