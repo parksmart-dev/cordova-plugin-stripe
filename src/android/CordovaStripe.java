@@ -362,8 +362,6 @@ public class CordovaStripe extends CordovaPlugin
 
             stripeInstance.createPaymentMethod(
                 paymentMethodCreateParams,
-                null,
-                stripeConnectAccount,
                 new ApiResultCallback<PaymentMethod>() {
                     @Override
                     public void onSuccess(@NonNull PaymentMethod result) 
