@@ -12,5 +12,6 @@ extern NSArray *CardBrands;
 - (void) initApplePay: (CDVInvokedUrlCommand *) command;
 - (void) payWithApplePay: (CDVInvokedUrlCommand *) command;
 - (void) processPayment: (PKPaymentAuthorizationViewController *) controller didAuthorizePayment:(PKPayment *) payment completion:(void (^)(PKPaymentAuthorizationStatus)) completion;
+- (void) finalizeApplePayTransaction:(CDVInvokedUrlCommand *) command;
 
 @end

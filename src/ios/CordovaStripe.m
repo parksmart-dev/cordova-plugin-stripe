@@ -100,9 +100,22 @@ NSArray *CardBrands = nil;
         
         //NSLog(@"Result is %@", token.tokenId);
 
+        [self.viewController dismissViewControllerAnimated:YES completion:nil];
+        
         [self.commandDelegate sendPluginResult:result callbackId:self.applePayCDVCallbackId];
         self.applePayCDVCallbackId = nil;
     }];
+}
+
+
+- (void)finalizeApplePayTransaction: (CDVInvokedUrlCommand *) command
+{
+    BOOL successful = [command.arguments objectAtIndex:0];
+    if (self.applePayCompleteCallback) {
+        self.applePayCompleteCallback(successful? PKPaymentAuthorizationStatusSuccess : PKPaymentAuthorizationStatusFailure);
+        self.applePayCompleteCallback = nil;
+    }
+    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
 
 
