@@ -17,9 +17,7 @@ NSArray *CardBrands = nil;
 
 - (void)initApplePay:(CDVInvokedUrlCommand*)command
 {
-    NSDictionary* const requestParams = [[command arguments] objectAtIndex:0];
-
-    NSString* publishableKey = requestParams[@"publishableKey"];
+    NSString* publishableKey = [command.arguments objectAtIndex:0];
 
     [[STPPaymentConfiguration sharedConfiguration] setPublishableKey:publishableKey];
     
@@ -48,40 +46,35 @@ NSArray *CardBrands = nil;
         return;
     }
     
-    [self.commandDelegate runInBackground:^{
+    NSString *merchantIdentifier    = [command.arguments objectAtIndex:0];
+    NSString *amount                = [command.arguments objectAtIndex:1];
+    NSString *currencyCode          = [command.arguments objectAtIndex:2];
+    NSString *stripeKey             = [command.arguments objectAtIndex:3];
+    NSString *stripeAccount         = [command.arguments objectAtIndex:4];
+
+    PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:merchantIdentifier country:@"GB" currency:currencyCode];
+
+    paymentRequest.paymentSummaryItems = @[
+        // The final line should represent your company;
+        // it'll be prepended with the word "Pay" (i.e. "Pay iHats, Inc $50")
+        [PKPaymentSummaryItem summaryItemWithLabel:@"ParkSmart" amount:[NSDecimalNumber decimalNumberWithString:amount]],
+    ];
+
+    if ([Stripe canSubmitPaymentRequest:paymentRequest]) 
+    {
+        PKPaymentAuthorizationViewController *paymentAuthorizationViewController = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
         
-        NSDictionary* const requestParams = [[command arguments] objectAtIndex:0];
-
-        NSString *merchantIdentifier = requestParams[@"merchantIdentifier"];
-        NSString *currencyCode = requestParams[@"currencyCode"];
-        NSString *amount = requestParams[@"amount"];
-
-        PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:merchantIdentifier currency:currencyCode];
-
-        paymentRequest.paymentSummaryItems = @[
-            // The final line should represent your company;
-            // it'll be prepended with the word "Pay" (i.e. "Pay iHats, Inc $50")
-            [PKPaymentSummaryItem summaryItemWithLabel:@"ParkSmart" amount:[NSDecimalNumber decimalNumberWithString:amount]],
-        ];
-
-        paymentRequest.paymentSummaryItems = paymentSummaryItems;
-
-        if ([Stripe canSubmitPaymentRequest:paymentRequest]) 
-        {
-            PKPaymentAuthorizationViewController *paymentAuthorizationViewController = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
-            
-            paymentAuthorizationViewController.delegate = self.appDelegate;
-            self.applePayCDVCallbackId = command.callbackId;
-            
-            NSLog(@"Callback ID is %@", command.callbackId);
-            
-            [self.viewController presentViewController:paymentAuthorizationViewController animated:YES completion:nil];
-        } 
-        else 
-        {
-            NSLog(@"Problem with integration");
-        }
-    }];    
+        paymentAuthorizationViewController.delegate = self.appDelegate;
+        self.applePayCDVCallbackId = command.callbackId;
+        
+        NSLog(@"Callback ID is %@", command.callbackId);
+        
+        [self.viewController presentViewController:paymentAuthorizationViewController animated:YES completion:nil];
+    } 
+    else 
+    {
+        NSLog(@"Problem with integration");
+    } 
 }
 
 
@@ -102,9 +95,11 @@ NSArray *CardBrands = nil;
         else 
         {
             self.applePayCompleteCallback = completion;
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:token.allResponseFields];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:token.tokenId];
         }
         
+        //NSLog(@"Result is %@", token.tokenId);
+
         [self.commandDelegate sendPluginResult:result callbackId:self.applePayCDVCallbackId];
         self.applePayCDVCallbackId = nil;
     }];
