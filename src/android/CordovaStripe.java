@@ -31,6 +31,7 @@ import com.stripe.android.model.Token;
 import com.stripe.android.GooglePayConfig;
 import com.stripe.android.model.PaymentMethodCreateParams;
 import com.stripe.android.ApiResultCallback;
+import com.stripe.android.GooglePayConfig;
 import com.stripe.android.model.PaymentMethod;
 
 import org.apache.cordova.CallbackContext;
@@ -101,7 +102,7 @@ public class CordovaStripe extends CordovaPlugin
     {
         publishableKey = key;
 
-        stripeInstance = new Stripe(webView.getContext(), publishableKey, stripeAccount);
+        stripeInstance = new Stripe(webView.getContext(), publishableKey);
         stripeConnectAccount = stripeAccount;
 
         paymentsClient = Wallet.getPaymentsClient(
@@ -166,7 +167,7 @@ public class CordovaStripe extends CordovaPlugin
             + "\"merchantInfo\": {"
                 + "\"merchantName\": \"Example Merchant\""
             + "},"
-            + "\"emailRequired\": " + false 
+            + "\"emailRequired\": " + true 
         + "}");
           
         /*
@@ -227,6 +228,60 @@ public class CordovaStripe extends CordovaPlugin
         */
     }
 
+    /*
+    private PaymentDataRequest createPaymentDataRequest2(String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) {
+        
+        final JSONObject tokenizationSpec =
+            new GooglePayConfig(stripeKey, stripeAccount).getTokenizationSpecification();
+        final JSONObject cardPaymentMethod = new JSONObject()
+            .put("type", "CARD")
+            .put(
+                "parameters",
+                new JSONObject()
+                    .put("allowedAuthMethods", new JSONArray()
+                        .put("PAN_ONLY")
+                        .put("CRYPTOGRAM_3DS"))
+                    .put("allowedCardNetworks",
+                        new JSONArray()
+                            .put("AMEX")
+                            .put("DISCOVER")
+                            .put("MASTERCARD")
+                            .put("VISA"))
+
+                    // require billing address
+                    .put("billingAddressRequired", true)
+                    .put(
+                        "billingAddressParameters",
+                        new JSONObject()
+                            // require full billing address
+                            .put("format", "MIN")
+
+                            // require phone number
+                            .put("phoneNumberRequired", false)
+                    )
+            )
+            .put("tokenizationSpecification", tokenizationSpec);
+
+        // create PaymentDataRequest
+        final JSONObject paymentDataRequest = new JSONObject()
+            .put("apiVersion", 2)
+            .put("apiVersionMinor", 0)
+            .put("allowedPaymentMethods",
+                new JSONArray().put(cardPaymentMethod))
+            .put("transactionInfo", JSONObject()
+                .put("totalPrice", totalPrice)
+                .put("totalPriceStatus", "FINAL")
+                .put("currencyCode", currencyCode)
+            )
+            .put("merchantInfo", new JSONObject()
+                .put("merchantName", "Example Merchant"))
+
+            // require email address
+            .put("emailRequired", false);
+
+        return PaymentDataRequest.fromJson(paymentDataRequest);
+    }
+*/
 
     
     private void payWithGooglePay( String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) 
@@ -279,7 +334,7 @@ public class CordovaStripe extends CordovaPlugin
                     Status status = AutoResolveHelper.getStatusFromIntent(intent);
                     Log.i("DRIVER", "Result Error");
                     Log.i("DRIVER", status.toString());
-                    googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + status.toString());
+                    googlePayCallbackContext.error("Error1 occurred while attempting to pay with GooglePay. Error #" + status.toString());
                     break;
             }
         }
@@ -307,8 +362,6 @@ public class CordovaStripe extends CordovaPlugin
 
             stripeInstance.createPaymentMethod(
                 paymentMethodCreateParams,
-                null,
-                stripeConnectAccount,
                 new ApiResultCallback<PaymentMethod>() {
                     @Override
                     public void onSuccess(@NonNull PaymentMethod result) 
@@ -323,7 +376,7 @@ public class CordovaStripe extends CordovaPlugin
                     {
                         Log.i("DRIVER", e.toString());
                         webView.loadUrl("javascript:console.log('Error');");
-                        googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
+                        googlePayCallbackContext.error("Error2 occurred while attempting to pay with GooglePay. Error #" + e.toString());
                     }
                 }
             );
