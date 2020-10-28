@@ -167,7 +167,7 @@ public class CordovaStripe extends CordovaPlugin
             + "\"merchantInfo\": {"
                 + "\"merchantName\": \"Example Merchant\""
             + "},"
-            + "\"emailRequired\": " + false 
+            + "\"emailRequired\": " + true 
         + "}");
           
         /*
