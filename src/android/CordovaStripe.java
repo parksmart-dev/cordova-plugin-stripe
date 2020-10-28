@@ -136,7 +136,7 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private PaymentDataRequest createPaymentDataRequest2(String totalPrice, String currencyCode, String stripeKey, String stripeAccount) 
+    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode, String stripeKey, String stripeAccount) 
     {
         return PaymentDataRequest.fromJson("{"
             + "\"apiVersion\": 2,"
@@ -228,7 +228,8 @@ public class CordovaStripe extends CordovaPlugin
         */
     }
 
-    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) {
+    /*
+    private PaymentDataRequest createPaymentDataRequest2(String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) {
         
         final JSONObject tokenizationSpec =
             new GooglePayConfig(stripeKey, stripeAccount).getTokenizationSpecification();
@@ -280,7 +281,7 @@ public class CordovaStripe extends CordovaPlugin
 
         return PaymentDataRequest.fromJson(paymentDataRequest);
     }
-
+*/
 
     
     private void payWithGooglePay( String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) 
@@ -333,7 +334,7 @@ public class CordovaStripe extends CordovaPlugin
                     Status status = AutoResolveHelper.getStatusFromIntent(intent);
                     Log.i("DRIVER", "Result Error");
                     Log.i("DRIVER", status.toString());
-                    googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + status.toString());
+                    googlePayCallbackContext.error("Error1 occurred while attempting to pay with GooglePay. Error #" + status.toString());
                     break;
             }
         }
@@ -377,7 +378,7 @@ public class CordovaStripe extends CordovaPlugin
                     {
                         Log.i("DRIVER", e.toString());
                         webView.loadUrl("javascript:console.log('Error');");
-                        googlePayCallbackContext.error("Error occurred while attempting to pay with GooglePay. Error #" + e.toString());
+                        googlePayCallbackContext.error("Error2 occurred while attempting to pay with GooglePay. Error #" + e.toString());
                     }
                 }
             );
