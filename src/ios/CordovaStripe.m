@@ -95,7 +95,7 @@ NSArray *CardBrands = nil;
         else 
         {
             self.applePayCompleteCallback = completion;
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:token.tokenId];
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token.tokenId];
         }
         
         //NSLog(@"Result is %@", token.tokenId);
