@@ -4,26 +4,29 @@
 
 @implementation AppDelegate (CordovaStripe)
 static NSString* const PLUGIN_NAME = @"CordovaStripe";
-- (void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller didAuthorizePayment:(PKPayment *)payment completion:(void (^)(PKPaymentAuthorizationStatus))completion 
+
+- (void)applePayContext: (STPApplePayContext *)context didCreatePaymentMethod:(STPPaymentMethod *)paymentMethod paymentInformation:(PKPayment *)paymentInformation completion:(STPIntentClientSecretCompletionBlock)completion
 {
     CordovaStripe* pluginInstance = [self.viewController getCommandInstance:PLUGIN_NAME];
 
-    if (pluginInstance != nil) 
+    if (pluginInstance != nil)
     {
         // Send token back to plugin
-        [pluginInstance processPayment:controller didAuthorizePayment:payment completion:completion];
-    } 
-    else 
+        [pluginInstance applePayContext:context didCreatePaymentMethod:paymentMethod paymentInformation:paymentInformation completion:completion];
+    }
+    else
     {
         // Discard payment
         NSLog(@"Unable to get plugin instsnce, discarding payment.");
-        completion(PKPaymentAuthorizationStatusFailure);
+        completion(STPPaymentStatusError);
     }
 }
 
+/*
 - (void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller 
 {
     [self.viewController dismissViewControllerAnimated:YES completion:nil];
 }
+*/
 
 @end

@@ -67,31 +67,17 @@ NSArray *CardBrands = nil;
         
         if (applePayContext) 
         {
-            //applePayContext.delegate = self.appDelegate;
             self.applePayCDVCallbackId = command.callbackId;
             
             NSLog(@"Callback ID is %@", command.callbackId);
 
-            // Present Apple Pay payment sheet
-            [applePayContext presentApplePayOnViewController:self completion:nil];
+            [applePayContext presentApplePayOnViewController:self.viewController completion:nil];
         } 
         else 
         {
             // There is a problem with your Apple Pay configuration
             NSLog(@"Problem with integration");
         }
-        */
-
-        /*
-        PKPaymentAuthorizationViewController *paymentAuthorizationViewController = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
-        
-        paymentAuthorizationViewController.delegate = self.appDelegate;
-        self.applePayCDVCallbackId = command.callbackId;
-        
-        NSLog(@"Callback ID is %@", command.callbackId);
-        
-        [self.viewController presentViewController:paymentAuthorizationViewController animated:YES completion:nil];
-        */
     } 
     else 
     {
@@ -102,14 +88,32 @@ NSArray *CardBrands = nil;
 
 - (void)applePayContext: (STPApplePayContext *)context didCreatePaymentMethod:(STPPaymentMethod *)paymentMethod paymentInformation:(PKPayment *)paymentInformation completion:(STPIntentClientSecretCompletionBlock)completion 
 {
-    NSString *clientSecret = ... // Call your backend to create a PaymentIntent (see Server-side step above) and get its client secret
-    // Call the completion block with the client secret or an error
-    completion(clientSecret, error);
+    //NSLog(@"TOKEN is %@", paymentMethod.stripeId);
+    
+    CDVPluginResult *result;
+    
+    if (paymentMethod == nil)
+    {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Unable to retrieve token"];
+    }
+    else
+    {
+        //self.applePayCompleteCallback = completion;
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:paymentMethod.stripeId];
+    }
+
+    [self.viewController dismissViewControllerAnimated:YES completion:nil];
+    
+    [self.commandDelegate sendPluginResult:result callbackId:self.applePayCDVCallbackId];
+    self.applePayCDVCallbackId = nil;
 }
 
-
+/*
 - (void)applePayContext:(STPApplePayContext *)context didCompleteWithStatus:(STPPaymentStatus)status error:(NSError *)error 
 {
+    NSLog(@"HERE 2");
+    NSLog(@"STATUS is %@", status);
+    
     switch (status) 
     {
         case STPPaymentStatusSuccess:
@@ -126,47 +130,19 @@ NSArray *CardBrands = nil;
     }
 }
 
-
-- (void)processPayment: (PKPaymentAuthorizationViewController *)controller didAuthorizePayment:(PKPayment *)payment completion:(void (^)(PKPaymentAuthorizationStatus))completion
-{
-    [self.client createTokenWithPayment:payment completion:^(STPToken *token, NSError *error) 
-    {
-        CDVPluginResult *result;
-        
-        if (error != nil) 
-        {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.localizedDescription];
-        } 
-        else if (token == nil) 
-        {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Unable to retrieve token"];
-        } 
-        else 
-        {
-            self.applePayCompleteCallback = completion;
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token.tokenId];
-        }
-        
-        //NSLog(@"Result is %@", token.tokenId);
-
-        [self.viewController dismissViewControllerAnimated:YES completion:nil];
-        
-        [self.commandDelegate sendPluginResult:result callbackId:self.applePayCDVCallbackId];
-        self.applePayCDVCallbackId = nil;
-    }];
-}
-
-
 - (void)finalizeApplePayTransaction: (CDVInvokedUrlCommand *) command
 {
     BOOL successful = [command.arguments objectAtIndex:0];
-    if (self.applePayCompleteCallback) {
-        self.applePayCompleteCallback(successful? PKPaymentAuthorizationStatusSuccess : PKPaymentAuthorizationStatusFailure);
+    
+    if (self.applePayCompleteCallback) 
+    {
+        self.applePayCompleteCallback(successful? STPPaymentStatusSuccess : STPPaymentStatusError);
         self.applePayCompleteCallback = nil;
     }
+
     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
 }
-
+*/
 
 - (void)checkApplePaySupport: (CDVInvokedUrlCommand *)command
 {
