@@ -269,7 +269,7 @@ public class CordovaStripe extends CordovaPlugin
             .put("apiVersionMinor", 0)
             .put("allowedPaymentMethods",
                 new JSONArray().put(cardPaymentMethod))
-            .put("transactionInfo", JSONObject()
+            .put("transactionInfo", new JSONObject()
                 .put("totalPrice", totalPrice)
                 .put("totalPriceStatus", "FINAL")
                 .put("currencyCode", currencyCode)
