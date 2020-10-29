@@ -102,7 +102,7 @@ public class CordovaStripe extends CordovaPlugin
     {
         publishableKey = key;
 
-        stripeInstance = new Stripe(webView.getContext(), publishableKey);
+        stripeInstance = new Stripe(webView.getContext(), publishableKey, stripeAccount);
         stripeConnectAccount = stripeAccount;
 
         paymentsClient = Wallet.getPaymentsClient(
@@ -154,7 +154,8 @@ public class CordovaStripe extends CordovaPlugin
                         + "\"parameters\": {"
                             + "\"gateway\": \"stripe\","
                             + "\"stripe:version\": \"2018-10-31\","
-                            + "\"stripe:publishableKey\": \"" + stripeKey + "\""
+                            + "\"stripe:publishableKey\": \"" + stripeKey + "\","
+                            + "\"stripe:connectedAccountId\": \"" + stripeAccount + "\""
                         + "}"
                     + "}"
                 + "}"
