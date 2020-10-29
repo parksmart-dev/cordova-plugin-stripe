@@ -12,6 +12,6 @@ extern NSArray *CardBrands;
 - (void) initApplePay: (CDVInvokedUrlCommand *) command;
 - (void) payWithApplePay: (CDVInvokedUrlCommand *) command;
 - (void) applePayContext: (STPApplePayContext *)context didCreatePaymentMethod:(STPPaymentMethod *)paymentMethod paymentInformation:(PKPayment *)paymentInformation completion:(STPIntentClientSecretCompletionBlock)completion;
-//- (void) finalizeApplePayTransaction:(CDVInvokedUrlCommand *) command;
+- (void) applePayContext:(STPApplePayContext *)context didCompleteWithStatus:(STPPaymentStatus)status error:(NSError *)error;
 
 @end

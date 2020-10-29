@@ -18,15 +18,25 @@ static NSString* const PLUGIN_NAME = @"CordovaStripe";
     {
         // Discard payment
         NSLog(@"Unable to get plugin instsnce, discarding payment.");
-        completion(STPPaymentStatusError);
+        //completion(STPPaymentStatusError);
     }
 }
 
-/*
-- (void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller 
+- (void)applePayContext:(STPApplePayContext *)context didCompleteWithStatus:(STPPaymentStatus)status error:(NSError *)error 
 {
-    [self.viewController dismissViewControllerAnimated:YES completion:nil];
+    CordovaStripe* pluginInstance = [self.viewController getCommandInstance:PLUGIN_NAME];
+
+    if (pluginInstance != nil)
+    {
+        // Send token back to plugin
+        [pluginInstance applePayContext:context didCompleteWithStatus:status error:error];
+    }
+    else
+    {
+        // Discard payment
+        NSLog(@"Unable to get plugin instsnce, discarding payment.");
+        //completion(STPPaymentStatusError);
+    }
 }
-*/
 
 @end

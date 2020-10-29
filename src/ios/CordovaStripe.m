@@ -18,19 +18,19 @@ NSArray *CardBrands = nil;
 - (void)initApplePay:(CDVInvokedUrlCommand*)command
 {
     NSString* publishableKey = [command.arguments objectAtIndex:0];
+    NSString* connectedAccount = [command.arguments objectAtIndex:1];
 
-    [[STPPaymentConfiguration sharedConfiguration] setPublishableKey:publishableKey];
-    
     if (self.client == nil) 
     {
         // init client if doesn't exist
         client = [[STPAPIClient alloc] init];
-    } 
-    else 
-    {
-        [self.client setPublishableKey:publishableKey];
     }
-    
+    else
+    {
+        [[STPAPIClient sharedClient] setPublishableKey:publishableKey];
+        [[STPAPIClient sharedClient] setStripeAccount:connectedAccount];
+    }
+
     CDVPluginResult* result = [CDVPluginResult
                                resultWithStatus: CDVCommandStatus_OK];
 
@@ -51,6 +51,9 @@ NSArray *CardBrands = nil;
     NSString *currencyCode          = [command.arguments objectAtIndex:2];
     NSString *stripeKey             = [command.arguments objectAtIndex:3];
     NSString *stripeAccount         = [command.arguments objectAtIndex:4];
+
+    [[STPAPIClient sharedClient] setPublishableKey:stripeKey];
+    [[STPAPIClient sharedClient] setStripeAccount:stripeAccount];
 
     PKPaymentRequest *paymentRequest = [Stripe paymentRequestWithMerchantIdentifier:merchantIdentifier country:@"GB" currency:currencyCode];
 
@@ -108,41 +111,30 @@ NSArray *CardBrands = nil;
     self.applePayCDVCallbackId = nil;
 }
 
-/*
-- (void)applePayContext:(STPApplePayContext *)context didCompleteWithStatus:(STPPaymentStatus)status error:(NSError *)error 
+
+- (void)applePayContext:(STPApplePayContext *)context didCompleteWithStatus:(STPPaymentStatus)status error:(NSError *)error
 {
-    NSLog(@"HERE 2");
-    NSLog(@"STATUS is %@", status);
-    
-    switch (status) 
+    switch (status)
     {
         case STPPaymentStatusSuccess:
             // Payment succeeded, show a receipt view
+            NSLog(@"SUCCESS");
             break;
 
         case STPPaymentStatusError:
+        {
+            NSString *theError = [error localizedDescription];
+            NSLog(@"ERROR ID is %@", theError);
             // Payment failed, show the error
-            break;
 
+            break;
+        }
         case STPPaymentStatusUserCancellation:
             // User cancelled the payment
+             NSLog(@"CANCELLED");
             break;
     }
 }
-
-- (void)finalizeApplePayTransaction: (CDVInvokedUrlCommand *) command
-{
-    BOOL successful = [command.arguments objectAtIndex:0];
-    
-    if (self.applePayCompleteCallback) 
-    {
-        self.applePayCompleteCallback(successful? STPPaymentStatusSuccess : STPPaymentStatusError);
-        self.applePayCompleteCallback = nil;
-    }
-
-    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK] callbackId:command.callbackId];
-}
-*/
 
 - (void)checkApplePaySupport: (CDVInvokedUrlCommand *)command
 {
