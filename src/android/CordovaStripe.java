@@ -136,7 +136,7 @@ public class CordovaStripe extends CordovaPlugin
     }
 
 
-    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode, String stripeKey, String stripeAccount) 
+    private PaymentDataRequest createPaymentDataRequest2(String totalPrice, String currencyCode, String stripeKey, String stripeAccount) 
     {
         return PaymentDataRequest.fromJson("{"
             + "\"apiVersion\": 2,"
@@ -229,8 +229,8 @@ public class CordovaStripe extends CordovaPlugin
         */
     }
 
-    /*
-    private PaymentDataRequest createPaymentDataRequest2(String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) {
+    
+    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) {
         
         final JSONObject tokenizationSpec =
             new GooglePayConfig(stripeKey, stripeAccount).getTokenizationSpecification();
@@ -278,11 +278,12 @@ public class CordovaStripe extends CordovaPlugin
                 .put("merchantName", "Example Merchant"))
 
             // require email address
-            .put("emailRequired", false);
+            .put("emailRequired", true)
+            .toString();
 
         return PaymentDataRequest.fromJson(paymentDataRequest);
     }
-*/
+
 
     
     private void payWithGooglePay( String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) 
