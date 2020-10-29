@@ -231,8 +231,9 @@ public class CordovaStripe extends CordovaPlugin
 
     @NonNull
     private JSONObject createPaymentDataRequest(String totalPrice, String currencyCode, String stripeKey, String stripeAccount) {
-        
-        final JSONObject tokenizationSpec =
+        try{
+
+            final JSONObject tokenizationSpec =
             new GooglePayConfig(stripeKey, stripeAccount).getTokenizationSpecification();
         final JSONObject cardPaymentMethod = new JSONObject()
             .put("type", "CARD")
@@ -279,6 +280,12 @@ public class CordovaStripe extends CordovaPlugin
 
             // require email address
             .put("emailRequired", true);
+        
+        } catch (JSONException e) {
+            throw new RuntimeException("The price cannot be deserialized from the JSON object.");
+        }
+
+        
 
         return paymentDataRequest;
     }
