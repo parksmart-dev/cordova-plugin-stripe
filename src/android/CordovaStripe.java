@@ -153,7 +153,7 @@ public class CordovaStripe extends CordovaPlugin
                         + "\"type\": \"PAYMENT_GATEWAY\","
                         + "\"parameters\": {"
                             + "\"gateway\": \"stripe\","
-                            + "\"stripe:version\": \"2018-10-31\","
+                            + "\"stripe:version\": \"2019-09-09\","
                             + "\"stripe:publishableKey\": \"" + stripeKey + "\","
                             + "\"stripe:connectedAccountId\": \"" + stripeAccount + "\""
                         + "}"
