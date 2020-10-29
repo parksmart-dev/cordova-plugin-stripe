@@ -281,7 +281,7 @@ public class CordovaStripe extends CordovaPlugin
             // require email address
             .put("emailRequired", true);
 
-            return JSONObject paymentDataRequest;
+            return paymentDataRequest;
         
         } catch (JSONException e) {
             throw new RuntimeException("The price cannot be deserialized from the JSON object.");
