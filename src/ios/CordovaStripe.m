@@ -62,6 +62,27 @@ NSArray *CardBrands = nil;
 
     if ([Stripe canSubmitPaymentRequest:paymentRequest]) 
     {
+        // Initialize an STPApplePayContext instance
+        STPApplePayContext *applePayContext = [[STPApplePayContext alloc] initWithPaymentRequest:paymentRequest delegate:self.appDelegate];
+        
+        if (applePayContext) 
+        {
+            //applePayContext.delegate = self.appDelegate;
+            self.applePayCDVCallbackId = command.callbackId;
+            
+            NSLog(@"Callback ID is %@", command.callbackId);
+
+            // Present Apple Pay payment sheet
+            [applePayContext presentApplePayOnViewController:self completion:nil];
+        } 
+        else 
+        {
+            // There is a problem with your Apple Pay configuration
+            NSLog(@"Problem with integration");
+        }
+        */
+
+        /*
         PKPaymentAuthorizationViewController *paymentAuthorizationViewController = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
         
         paymentAuthorizationViewController.delegate = self.appDelegate;
@@ -70,11 +91,39 @@ NSArray *CardBrands = nil;
         NSLog(@"Callback ID is %@", command.callbackId);
         
         [self.viewController presentViewController:paymentAuthorizationViewController animated:YES completion:nil];
+        */
     } 
     else 
     {
         NSLog(@"Problem with integration");
     } 
+}
+
+
+- (void)applePayContext: (STPApplePayContext *)context didCreatePaymentMethod:(STPPaymentMethod *)paymentMethod paymentInformation:(PKPayment *)paymentInformation completion:(STPIntentClientSecretCompletionBlock)completion 
+{
+    NSString *clientSecret = ... // Call your backend to create a PaymentIntent (see Server-side step above) and get its client secret
+    // Call the completion block with the client secret or an error
+    completion(clientSecret, error);
+}
+
+
+- (void)applePayContext:(STPApplePayContext *)context didCompleteWithStatus:(STPPaymentStatus)status error:(NSError *)error 
+{
+    switch (status) 
+    {
+        case STPPaymentStatusSuccess:
+            // Payment succeeded, show a receipt view
+            break;
+
+        case STPPaymentStatusError:
+            // Payment failed, show the error
+            break;
+
+        case STPPaymentStatusUserCancellation:
+            // User cancelled the payment
+            break;
+    }
 }
 
 

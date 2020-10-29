@@ -13,6 +13,7 @@
 #import "STPFormEncodable.h"
 
 @class CNContact;
+@class STPPaymentMethodBillingDetails;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,9 +29,9 @@ typedef NS_ENUM(NSUInteger, STPBillingAddressFields) {
      */
     STPBillingAddressFieldsNone,
     /**
-     Just request the user's billing ZIP code
+     Just request the user's billing postal code
      */
-    STPBillingAddressFieldsZip,
+    STPBillingAddressFieldsPostalCode,
     /**
      Request the user's full billing address
      */
@@ -40,6 +41,11 @@ typedef NS_ENUM(NSUInteger, STPBillingAddressFields) {
      Just request the user's billing name
      */
     STPBillingAddressFieldsName,
+    /**
+     Just request the user's billing ZIP (synonym for STPBillingAddressFieldsZip)
+     @deprecated Use STPBillingAddressFieldsPostalCode instead.
+     */
+    STPBillingAddressFieldsZip __attribute__((deprecated("Use STPBillingAddressFieldsPostalCode", "STPBillingAddressFieldsPostalCode"))) = STPBillingAddressFieldsPostalCode,
 };
 
 
@@ -133,6 +139,14 @@ extern STPContactField const STPContactFieldName;
                                              shippingMethod:(nullable PKShippingMethod *)method;
 
 /**
+ Initializes a new STPAddress with data from STPPaymentMethodBillingDetails.
+ 
+ @param billingDetails The STPPaymentMethodBillingDetails instance you want to populate the STPAddress from.
+ @return A new STPAddress instance with data copied from the passed in billing details.
+ */
+- (instancetype)initWithPaymentMethodBillingDetails:(STPPaymentMethodBillingDetails *)billingDetails;
+
+/**
  Initializes a new STPAddress with data from an PassKit contact.
 
  @param contact The PassKit contact you want to populate the STPAddress from.
@@ -217,31 +231,15 @@ extern STPContactField const STPContactFieldName;
  */
 - (BOOL)containsContentForShippingAddressFields:(nullable NSSet<STPContactField> *)desiredFields;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
 /**
  Converts an STPBillingAddressFields enum value into the closest equivalent
- representation of PKAddressField options
+ representation of PKContactField options
 
  @param billingAddressFields Stripe billing address fields enum value to convert.
  @return The closest representation of the billing address requirement as
- a PKAddressField value.
+ a PKContactField value.
  */
-+ (PKAddressField)applePayAddressFieldsFromBillingAddressFields:(STPBillingAddressFields)billingAddressFields;
-#pragma clang diagnostic pop
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-/**
- Converts a set of STPContactField values into the closest equivalent
- representation of PKAddressField options
-
- @param contactFields Stripe contact fields values to convert.
- @return The closest representation of the contact fields as
- a PKAddressField value.
- */
-+ (PKAddressField)pkAddressFieldsFromStripeContactFields:(nullable NSSet<STPContactField> *)contactFields;
-#pragma clang diagnostic pop
++ (NSSet<PKContactField> *)applePayContactFieldsFromBillingAddressFields:(STPBillingAddressFields)billingAddressFields;
 
 /**
  Converts a set of STPContactField values into the closest equivalent
@@ -251,7 +249,7 @@ extern STPContactField const STPContactFieldName;
  @return The closest representation of the contact fields as
  a PKContactField value.
  */
-+ (nullable NSSet<PKContactField> *)pkContactFieldsFromStripeContactFields:(nullable NSSet<STPContactField> *)contactFields API_AVAILABLE(ios(11.0));
++ (nullable NSSet<PKContactField> *)pkContactFieldsFromStripeContactFields:(nullable NSSet<STPContactField> *)contactFields;
 
 @end
 
