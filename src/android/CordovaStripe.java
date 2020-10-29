@@ -229,8 +229,8 @@ public class CordovaStripe extends CordovaPlugin
         */
     }
 
-    
-    private PaymentDataRequest createPaymentDataRequest(String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) {
+    @NonNull
+    private JSONObject createPaymentDataRequest(String totalPrice, String currencyCode, String stripeKey, String stripeAccount, final CallbackContext callbackContext) {
         
         final JSONObject tokenizationSpec =
             new GooglePayConfig(stripeKey, stripeAccount).getTokenizationSpecification();
