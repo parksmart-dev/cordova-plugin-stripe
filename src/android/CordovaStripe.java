@@ -281,7 +281,7 @@ public class CordovaStripe extends CordovaPlugin
             .put("emailRequired", true)
             .toString();
 
-        return PaymentDataRequest.fromJson(paymentDataRequest);
+        return PaymentDataRequest.fromJson(paymentDataRequest.toJson());
     }
 
 
@@ -292,7 +292,7 @@ public class CordovaStripe extends CordovaPlugin
 
         googlePayCallbackContext = callbackContext;
 
-        request = this.createPaymentDataRequest(totalPrice, currencyCode, stripeKey, stripeAccount);
+        PaymentDataRequest request = this.createPaymentDataRequest(totalPrice, currencyCode, stripeKey, stripeAccount);
 
         Activity activity = this.cordova.getActivity();
 
