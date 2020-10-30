@@ -284,7 +284,7 @@ public class CordovaStripe extends CordovaPlugin
             return paymentDataRequest;
         
         } catch (JSONException e) {
-            throw new RuntimeException("The price cannot be deserialized from the JSON object.");
+            throw new RuntimeException("PaymentDataRequest JSON Error");
         }
 
     
