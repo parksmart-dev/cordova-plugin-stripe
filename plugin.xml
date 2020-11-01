@@ -41,7 +41,7 @@
             </feature>
         </config-file>
 
-        <framework src="Stripe" type="podspec" spec="20.1.1" />
+        <framework src="Stripe" type="podspec" spec="20.1.1" custom="true" />
 
         <header-file src="src/ios/CordovaStripe.h"/>
         <source-file src="src/ios/CordovaStripe.m"/>
