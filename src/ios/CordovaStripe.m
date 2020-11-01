@@ -1,5 +1,5 @@
 #import "CordovaStripe.h"
-@import Stripe;
+#import <Stripe/Stripe.h>
 
 @implementation CordovaStripe
 

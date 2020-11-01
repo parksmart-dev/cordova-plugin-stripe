@@ -1,5 +1,5 @@
 #import <Cordova/CDV.h>
-@import Stripe;
+#import <Stripe/Stripe.h>
 
 typedef void(^ApplePayCallback)(PKPaymentAuthorizationStatus);
 

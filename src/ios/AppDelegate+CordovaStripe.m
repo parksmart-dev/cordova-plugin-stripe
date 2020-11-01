@@ -1,6 +1,6 @@
 #import "AppDelegate+CordovaStripe.h"
 #import "CordovaStripe.h"
-@import Stripe;
+#import <Stripe/Stripe.h>
 
 @implementation AppDelegate (CordovaStripe)
 static NSString* const PLUGIN_NAME = @"CordovaStripe";
