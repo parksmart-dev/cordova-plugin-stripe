@@ -42,7 +42,8 @@
         <header-file src="src/ios/AppDelegate+CordovaStripe.h"/>
         <source-file src="src/ios/AppDelegate+CordovaStripe.m"/>
 
-        <framework src="src/ios/Stripe.framework" custom="true"/>
+        <framework src="Stripe" type="podspec" spec="20.1" />
+        <!--<framework src="src/ios/Stripe.framework" custom="true"/>-->
 
     </platform>
 
