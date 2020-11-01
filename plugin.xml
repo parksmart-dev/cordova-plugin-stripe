@@ -8,6 +8,11 @@
     </js-module>
     <js-module name="CordovaStripe" src="www/CordovaStripe.js"/>
 
+    <engines>
+        <engine name="apple-xcode" version=">=12.0.0" />
+        <engine name="apple-ios" version=">=11.0.0" />
+    </engines>
+
     <platform name="android">
 
         <config-file target="res/xml/config.xml" parent="/*">
